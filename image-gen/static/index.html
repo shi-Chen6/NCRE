@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>生图工作台 · 题库配图</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◨</span>
+    <div>
+      <h1>生图工作台</h1>
+      <p class="sub" id="sub-title">正在载入数据集…</p>
+    </div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="actions">
+    <select class="set-sel" id="set-select" title="切换数据集"></select>
+    <button class="btn ghost" data-act="import">导入提示词</button>
+    <button class="btn ghost" data-act="test">接口自检</button>
+    <button class="btn ghost" data-act="settings">设置</button>
+    <button class="btn secondary" data-act="gen-failed">生成缺失</button>
+    <button class="btn primary" id="btn-gen-all" data-act="gen-all">生成全部</button>
+    <button class="btn download" data-act="zip">批量下载 ZIP</button>
+  </div>
+  <input type="file" id="file-input" accept=".md,.txt,text/markdown,text/plain" hidden />
+</header>
+
+<div class="taskbar" id="taskbar" hidden>
+  <div class="tb-left">
+    <span class="spinner" id="tb-spin"></span>
+    <span id="tb-msg">准备中…</span>
+  </div>
+  <div class="tb-mid">
+    <div class="bar"><i id="tb-bar"></i></div>
+    <span class="tb-count" id="tb-count">0/0</span>
+  </div>
+  <div class="tb-right">
+    <span class="tb-elapsed" id="tb-elapsed"></span>
+    <button class="btn tiny ghost" data-act="release">结束等待</button>
+  </div>
+</div>
+
+<aside class="drawer" id="drawer" hidden>
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <h2>设置</h2>
+      <button class="btn tiny ghost" data-act="close-settings">收起</button>
+    </div>
+
+    <label class="field">
+      <span>中转站 Base URL</span>
+      <input id="cfg-base_url" type="text" placeholder="https://img.zikl.dev/v1" />
+      <em>填到 /v1 为止，程序会自动拼 /images/generations</em>
+    </label>
+
+    <label class="field">
+      <span>API Key</span>
+      <input id="cfg-api_key" type="password" placeholder="留空 = 不修改已保存的 Key" />
+      <em id="key-hint">尚未配置</em>
+    </label>
+    <div class="row">
+      <button class="btn tiny ghost" data-act="toggle-key">显示已存 Key</button>
+      <button class="btn tiny ghost" data-act="clear-key">清空 Key</button>
+    </div>
+
+    <label class="field">
+      <span>模型</span>
+      <input id="cfg-model" type="text" placeholder="gpt-image-2.5" />
+    </label>
+
+    <label class="field">
+      <span>出图尺寸</span>
+      <div class="row">
+        <select id="cfg-size-select"></select>
+      </div>
+      <input id="cfg-size" type="text" placeholder="1536x1024" />
+      <em id="size-hint"></em>
+    </label>
+
+    <label class="field">
+      <span>质量</span>
+      <select id="cfg-quality"></select>
+    </label>
+
+    <label class="field">
+      <span>返回格式</span>
+      <select id="cfg-response_format"></select>
+      <em>不确定就留 auto；报「不支持 response_format」时改 auto</em>
+    </label>
+
+    <div class="grid2">
+      <label class="field">
+        <span>并发数</span>
+        <input id="cfg-concurrency" type="number" min="1" max="8" />
+      </label>
+      <label class="field">
+        <span>失败重试次数</span>
+        <input id="cfg-max_retries" type="number" min="0" max="5" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>单张超时（秒）</span>
+      <input id="cfg-timeout" type="number" min="30" max="900" />
+    </label>
+
+    <label class="field">
+      <span>通用附加要求（拼在每条提示词末尾）</span>
+      <textarea id="cfg-prompt_suffix" rows="4"></textarea>
+    </label>
+
+    <div class="row">
+      <button class="btn primary" data-act="save-config">保存设置</button>
+      <button class="btn ghost" data-act="reset-config">恢复默认</button>
+    </div>
+    <p class="tip" id="cfg-tip"></p>
+  </div>
+</aside>
+
+<main id="grid" class="grid"></main>
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lb-inner">
+    <img id="lb-img" alt="" />
+    <div class="lb-bar">
+      <span id="lb-title"></span>
+      <div class="row">
+        <button class="btn tiny ghost" data-act="lb-prev">上一张</button>
+        <button class="btn tiny ghost" data-act="lb-next">下一张</button>
+        <a class="btn tiny download" id="lb-dl" download>下载</a>
+        <button class="btn tiny ghost" data-act="lb-close">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---------- 生成物 / 大文件（可由脚本重新产出） ----------
+# 题目配图（fetch_images.py / 生图工作台产出）
+/images/
+# 生图工作台的全部出图与回收站
+image-gen/output/
+
+# ---------- 本地工作区 / 调试残留 ----------
+.workbuddy/
+_archive/
+image-gen/_dev/
+image-gen/_shot_home.png
+image-gen/_selftest_images/
+image-gen/_selftest_trash/
+image-gen/_dev_trash/
+*.bak
+
+# ---------- 本地配置（含 API Key，绝不入库） ----------
+image-gen/config/settings.json
+
+# ---------- 编辑器 / 系统 ----------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,19 @@
+# 统一换行符，避免 Windows 提交把整个仓库刷成 CRLF
+* text=auto
+
+# 二进制资源不做换行转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.docx binary
+*.xlsx binary
+*.zip binary
+
+# 文档类文件按文本处理
+*.md text
+*.json text
+*.py text
+*.js text
+*.css text
+*.html text

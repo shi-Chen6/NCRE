@@ -1,0 +1,230 @@
+{
+ "set": "09",
+ "title": "第 9 套题",
+ "source": "第9套题20题知识点讲解生图提示词.md",
+ "flat_images": false,
+ "imported_at": "2026-10-06 17:11:34",
+ "items": [
+  {
+   "no": 1,
+   "title": "第 1 题 · 重量不属于显示器的主要技术指标",
+   "style": "科技规格卡风，深灰底，青色描边，屏幕与量具元素",
+   "ratio": "16:9",
+   "layout": "A＝显示器体检表｜B＝六项指标清单｜C＝重量被划出｜D＝结论条",
+   "prompt": "Tech spec-card infographic, landscape, four-zone layout, dark charcoal background, cyan outlines with soft glow, screen and measuring-tool elements. Zone A (left, about 60% width): a display service bench where a large monitor stands on a mat being checked; a technician in a lab coat holds a clipboard with a checklist and ticks items one by one; beside the monitor lie a pixel-grid card, a magnifier, a stopwatch, a colour wheel and a long tape measure; on the far right of the bench stands a heavy platform scale with a small plug icon above it, and the technician's pen marks that line out; the monitor is highlighted. Zone B (upper right): a monitor drawn in line art with a checklist panel beside it; the panel holds six row icons (a pixel grid, a dot-gauge, a width ruler, a refresh arrow, a colour wheel and a weighing scale); five rows carry a green tick and the weighing-scale row carries a red cross with a horizontal line through it; dotted leaders connect each row to its part of the monitor. Zone C (lower right): a pale card with three rows of small tags, each row ticked instead of crossed — a resolution grid, a dot gauge and a size ruler. Zone D (bottom full-width bar): a dark rounded conclusion strip with a cyan check badge. Text on the image is Simplified Chinese only, in four short labels: \"分辨率\", \"点距尺寸\", \"重量\", \"不是指标\" — bold sans-serif on small dark rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 2,
+   "title": "第 2 题 · 任何计算机病毒都有清除的办法",
+   "style": "扁平轻幽默插画，暖橙底，深棕粗线条，带一点卡通感",
+   "ratio": "16:9",
+   "layout": "A＝维修工清理故障机器 / B＝清除手段四条 / C＝三种说法划叉 / D＝结论条",
+   "prompt": "Flat humorous illustration, landscape, four-zone layout, warm orange background, dark brown thick outlines, light cartoon feel, reassuring mood. Zone A (left, about 60% width): a repair workshop where a technician in overalls cleans a sick desktop computer — the tower sits on a bench with its side panel off, small spiky virus creatures being swept out with a small broom; the technician holds a spray bottle labelled with a shield icon in one hand and a screwdriver in the other; shelves behind hold a rescue disc, a back-up drive and a system reinstall box; a first-aid cross sign and a stool complete the scene; a clean, glowing computer sits ready on the output side. Zone B (upper right): a four-step rescue chain drawn as a ladder of plates — a scanning lens, a broom, a back-up drive and a fresh install disc — with an upward arrow running through all four; a small badge at the top shows a clean healthy machine; each plate carries a tiny label; a note tag beside the chain reads as \"there is always a way\". Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a sealed software box with a crack, an optical disc, and a document sheet. Zone D (bottom full-width bar): a warm rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"正版也会中毒\", \"光盘会带毒\", \"文档会带毒\", \"总能清除\" — bold brown rounded type on white rounded plates; the longest label is six characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 3,
+   "title": "第 3 题 · 世界上第一台电子计算机诞生在美国",
+   "style": "复古纪念馆插画，米黄做旧纸张质感，棕 + 湖蓝双色，纪念牌元素",
+   "ratio": "16:9",
+   "layout": "A＝巨型机器与纪念碑｜B＝1946 与 ENIAC 铭牌｜C＝三个国家划叉｜D＝结论条",
+   "prompt": "Retro memorial-museum illustration, landscape, four-zone layout, cream aged-paper background, brown and lake-blue two-tone, fine linework, light halftone texture, monumental feel. Zone A (left, about 60% width): a museum hall where a huge vintage computer with hundreds of glass tubes and rows of plug panels stands behind a rope barrier; visitors in period clothing look up at it; a large engraved stone plaque is mounted on the wall above the machine, and a spotlight illuminates it; a museum guide with a pointer explains to a small group; a bench, a brochure stand and a floor plan poster complete the hall; the plaque is highlighted. Zone B (upper right): a large nameplate drawn in relief, with an engraved year on its left face and a short uppercase acronym on its right face; a small flag emblem hangs beside the plate; below the plate two tiny data-cards show a country outline and a laboratory building; a magnifier rests on the plate corner. Zone C (lower right): a pale card with three rows of small country-pin icons, each row struck through with a thin line. Zone D (bottom full-width bar): a cream rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"第一台\", \"1946 年\", \"ENIAC\", \"美国\" — bold brown rounded type on cream rounded plates, each label no more than six characters. 16:9 landscape, high resolution, clean paper.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 4,
+   "title": "第 4 题 · Cache 是高速缓冲存储器",
+   "style": "等距微立体 3D，浅灰蓝底，木质与金属质感，天蓝 + 橙",
+   "ratio": "16:9",
+   "layout": "A＝手边笔筒与身后书架｜B＝CPU-缓存-主存三层｜C＝三种名称划叉｜D＝结论条",
+   "prompt": "Isometric 3D infographic, landscape, four-zone layout, pale grey-blue background, wood and metal textures, sky blue and orange palette, soft shadows. Zone A (left, about 60% width): a study desk seen at an angle — a worker sits at the desk with a small cylindrical pen pot right under their hand, holding only a few most-used pens; a large bookcase stands two steps behind, packed with many books; an even larger storage cabinet sits further back in the corner; dotted arrow trails show the worker reaching the pot instantly while the trip to the bookcase takes visibly longer; a desk lamp, a notebook, a stapler and a mug complete the desk; the pen pot glows softly. Zone B (upper right): a three-tier vertical stack — a small processor chip on top, a small high-speed block in the middle drawn with a speed badge, and a larger slower main-memory block at the bottom; solid short arrows link the chip and the middle block, while a longer dashed arrow links the middle block to the bottom block; the middle block is circled with a label plate beneath it. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a plain buffer icon, a read-only chip with a padlock, and a programmable read-only chip. Zone D (bottom full-width bar): a pale rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"缓存\", \"CPU\", \"主存\", \"又快又小\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 5,
+   "title": "第 5 题 · 防火墙阻止不了来自内部的威胁与攻击",
+   "style": "扁平插画，浅蓝底，蓝青主色，绿色高亮正确项",
+   "ratio": "16:9",
+   "layout": "A＝城堡围墙与内城门｜B＝防火墙的三项能力｜C＝内部威胁划叉｜D＝结论条",
+   "prompt": "Flat illustration, landscape, four-zone layout, pale blue background, blue and teal palette, green only for the correct item, clean lines. Zone A (left, about 60% width): a castle compound seen from above — a tall thick outer wall with a gatehouse and a checkpoint gate rings the whole site; outside the wall small arrows pushing inward are blocked and bounce off with little cross marks; inside the wall a sneaky figure walks freely with a sack, and a guard on the wall tower cannot see them because he faces outward; a moat, a drawbridge, a banner and a small watchtower complete the scene; the inward-blocking arrows are highlighted. Zone B (upper right): a three-feature panel — three row icons each with a tick (a boundary line, a blocked outside arrow, a packet filter sieve), and one row below with a red cross (an arrow curving inside the wall); the first three are ticked and the last is crossed; each row has a small label plate; a magnifier hovers over the crossed row. Zone C (lower right): a pale card with three rows of small tags, each row ticked instead of crossed — a boundary line, an outside arrow blocked, and a filter sieve. Zone D (bottom full-width bar): a pale blue rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"防火墙\", \"防外不防内\", \"外来入侵\", \"内部威胁\" — bold sans-serif on white rounded plates, each label no more than five characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 6,
+   "title": "第 6 题 · 管理信息系统、办公自动化、电子商务都是应用软件",
+   "style": "扁平图标化插画，浅灰蓝底，低饱和配色，商场元素",
+   "ratio": "16:9",
+   "layout": "A＝商场里的三家店铺｜B＝商场物业与店铺分层｜C＝三种系统软件划叉｜D＝结论条",
+   "prompt": "Flat icon-style infographic, landscape, four-zone layout, pale blue-grey background, low-saturation palette, shopping-mall elements, tidy. Zone A (left, about 60% width): a mall atrium seen from above with three storefronts in a row — the first is an office with desks and forms, the second is an office-automation booth with copiers and terminals, and the third is an online-shop counter with parcels and a cart; a shopper walks past all three; in the basement level a small utility room contains the mall's power panel and water pump; a lift, a directory board and a potted plant complete the atrium; the three storefronts share an identical blue outline. Zone B (upper right): a two-tier block diagram — the thick lower tier holds three infrastructure icons (a translator box, a database cylinder, a system gear) and the upper tier holds three business icons (a form, an office machine, a shopping cart); the upper tier is outlined and ticked as the answer set; a bracket marks each tier with a label plate beneath. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a translator-plus-database pair, an editor-plus-system trio, and a document-plus-system-plus-command trio. Zone D (bottom full-width bar): a pale rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"应用软件\", \"系统软件\", \"三家店铺\", \"水电物业\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 7,
+   "title": "第 7 题 · CPU 是微机硬件系统中最核心的部件",
+   "style": "等距微立体 3D，深灰蓝底，发光血管与金属，青绿 + 琥珀",
+   "ratio": "16:9",
+   "layout": "A＝人体的心脏｜B＝芯片为核心向外供能｜C＝三种部件划叉｜D＝结论条",
+   "prompt": "Isometric 3D infographic, landscape, four-zone layout, deep slate-blue background, glowing vessel and metal textures, teal and amber accents, soft shadows. Zone A (left, about 60% width): a human torso drawn in a friendly cutaway — a glowing heart sits at the centre and thin glowing vessels radiate out to the limbs and head; small labels float beside the limbs showing different body parts working; around the figure, four small machine blocks (a memory stick, a keyboard, a monitor and a disk) are connected to the heart by glowing lines, all drawing from it; a doctor's stethoscope, a chart board and a stool complete the scene; the heart glows brightest. Zone B (upper right): a central processor chip drawn large in the middle of a board, with solid glowing lines running outward to four surrounding blocks (a memory block, an input-device block, an output-device block and a disk block); small arrows on each line point away from the chip; the chip carries a small crown badge and is circled in amber; a label plate sits beneath it. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a memory stick, an input-output pair, and a hard disk. Zone D (bottom full-width bar): a dark rounded conclusion strip with a teal check badge. Text on the image is Simplified Chinese only, in four short labels: \"CPU\", \"最核心\", \"运算与控制\", \"心脏\" — bold sans-serif on small dark rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 8,
+   "title": "第 8 题 · 电子信箱不绑定某一台计算机",
+   "style": "扁平网络插画，浅蓝白底，蓝青主色，绿色高亮正确项",
+   "ratio": "16:9",
+   "layout": "A＝信箱号码随身带｜B＝账号在任意设备登录｜C＝三种说法划叉｜D＝结论条",
+   "prompt": "Flat network illustration, landscape, four-zone layout, pale blue-white background, blue and teal palette, green only for the correct item, clean lines. Zone A (left, about 60% width): one person standing in the middle holding a single key card with an envelope logo; around them four very different devices (a home desktop, a laptop on a café table, a phone in hand and a public terminal in a library) each show the same mail inbox with new messages; dotted lines connect the key card to all four devices, showing it works anywhere; a stamp, a mug and a small backpack complete the scene; the blocked cable to one single device is drawn with a cross. Zone B (upper right): a mail server drawn as a tall building with many letter boxes on its wall; the user's key card on the left points to one specific box; three different device icons on the lower left all connect to the same server box by separate lines; the single-device-only line is drawn greyed out and crossed; small arrows show mail arriving at the server and being read from anywhere. Zone C (lower right): a pale card with three rows of small tags, each row ticked instead of crossed — a short E-mail plate, an application form and a stack of multiple key cards. Zone D (bottom full-width bar): a pale blue rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"电子信箱\", \"跟着账号走\", \"不绑定电脑\", \"到处能收\" — bold sans-serif on white rounded plates, each label no more than five characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 9,
+   "title": "第 9 题 · 把高级语言源程序译成 .OBJ 的是编译程序",
+   "style": "工业流水线扁平插画，米白底，蓝橙撞色，纸张与书籍元素",
+   "ratio": "16:9",
+   "layout": "A＝整本译完 vs 边看边译｜B＝编译与解释对比｜C＝三种程序划叉｜D＝结论条",
+   "prompt": "Flat publishing-workshop illustration, landscape, four-zone layout, off-white background, blue and orange contrast, paper and book details, orderly. Zone A (left, about 60% width): two translators sit side by side at a long desk — the left one works through a thick foreign-language book and produces a complete bound translated volume stacked neatly on the right, with a small extension label on the cover; the right one sits beside a reader and translates sentence by sentence out loud, with no bound volume produced and only loose single-line slips on the desk; a globe, a dictionary stand, a lamp and a mug complete the scene; the left translator's finished volume is highlighted. Zone B (upper right): two horizontal lanes — the upper lane shows a whole manuscript entering a machine box and exiting as one complete grey object file; the lower lane shows the same manuscript passing through a small hand-lens box that emits only one line at a time with no complete output file; the upper lane's output object is boxed and ticked, and a label plate sits under each lane. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — an assembler gear, a pen-and-editor icon, and a hand lens. Zone D (bottom full-width bar): an off-white rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"编译程序\", \"整体翻译\", \"目标程序\", \"解释逐句\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 10,
+   "title": "第 10 题 · 运算器既能做算术运算也能做逻辑运算",
+   "style": "等距微立体 3D，深灰蓝底，金属与发光按键，青绿 + 琥珀",
+   "ratio": "16:9",
+   "layout": "A＝算盘与判断灯｜B＝ALU 双功能示意｜C＝三种片面说法划叉｜D＝结论条",
+   "prompt": "Isometric 3D infographic, landscape, four-zone layout, deep slate-blue background, metal and glowing key textures, teal and amber accents, soft shadows. Zone A (left, about 60% width): a large calculator-like console on a bench, divided into two clearly separated halves — the left half holds four big arithmetic keys (plus, minus, multiply, divide) and a small abacus sits beside it; the right half holds three comparison keys and two indicator lamps (one lit red, one lit green) with a small balance scale drawn on the panel; a technician presses one key on each half with two hands; a pencil, a notebook and a mug complete the bench; both halves glow equally. Zone B (upper right): a processor chip cutaway with one inner block enlarged — inside that block two sub-sections sit side by side, the left holding arithmetic symbols inside a gear outline and the right holding a comparison-and-logic symbol set inside a switch outline; a bracket groups both sub-sections under one label plate; a small crown badge marks the whole block as the ALU. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line. Zone D (bottom full-width bar): a dark rounded conclusion strip with a teal check badge. Text on the image is Simplified Chinese only, in four short labels: \"运算器\", \"算术运算\", \"逻辑运算\", \"两样都能\" — bold sans-serif on small dark rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 11,
+   "title": "第 11 题 · Pentium4 的字长是 32 位",
+   "style": "科技规格卡风，深蓝底，青色描边，闸门与方块元素",
+   "ratio": "16:9",
+   "layout": "A＝一次并排进闸多少人｜B＝位宽与通过量｜C＝三种位宽划叉｜D＝结论条",
+   "prompt": "Tech spec-card infographic, landscape, four-zone layout, deep blue background, cyan outlines with soft glow, gate and block elements. Zone A (left, about 60% width): a factory gate at an angle with a wide turnstile; a stream of small blue-and-white cubes moves toward the gate and passes through in one flat row; a counter board above the gate tallies the number of cubes in each passing row and shows a two-digit number; an engineer at a control panel checks the setting while holding a tablet; a conveyor, a spare gate panel and a toolbox complete the scene; the gate opening is highlighted. Zone B (upper right): four gate openings drawn side by side in increasing width, each with a matching row of cube slots behind it — the narrowest holds a small number of slots, the widest the most; each gate carries a small bit-count plate beneath; the third gate is circled and ticked, and a bracket marks its width against the others. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a narrow eight-bit plate, a sixteen-bit plate and a wide sixty-four-bit plate. Zone D (bottom full-width bar): a dark rounded conclusion strip with a cyan check badge. Text on the image is Simplified Chinese only, in four short labels: \"字长\", \"32 位\", \"一次并排\", \"闸门宽度\" — bold sans-serif on small dark rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 12,
+   "title": "第 12 题 · 把硬盘数据送到内存的操作叫读盘",
+   "style": "等距微立体 3D，浅灰蓝底，仓库与工作台质感，天蓝 + 橙",
+   "ratio": "16:9",
+   "layout": "A＝从仓库取货到工作台｜B＝读盘与写盘方向｜C＝三种说法划叉｜D＝结论条",
+   "prompt": "Isometric 3D infographic, landscape, four-zone layout, pale grey-blue background, warehouse and workbench textures, sky blue and orange palette, soft shadows. Zone A (left, about 60% width): a warehouse and a workbench connected by a conveyor — on the right the workbench holds a machine and a small stack of trays in use; on the left a tall shelf rack stores many labelled boxes; a worker carries a box along the conveyor from the rack toward the bench, and a large arrow above the belt points left-to-right with a small label plate; another worker at the far end pushes one finished tray the opposite way, shown by a second smaller arrow; a forklift, a clipboard and a lamp complete the site; the inbound arrow is highlighted. Zone B (upper right): a disk block on the left and a memory block on the right joined by two parallel arrows — the upper arrow runs disk-to-memory and is solid and glowing, the lower arrow runs memory-to-disk and is lighter; each arrow carries a small device-and-direction badge; a bracket groups the two directions with two label plates beneath. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a memory-to-disk arrow, an outward device arrow, and a save-disk icon. Zone D (bottom full-width bar): a pale blue rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"读盘\", \"硬盘\", \"内存\", \"取进来\" — bold sans-serif on white rounded plates, each label no more than three characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 13,
+   "title": "第 13 题 · 操作系统统一控制和管理全部资源并方便用户",
+   "style": "扁平插画，奶油白底，蓝绿与暖橙双色，圆润造型",
+   "ratio": "16:9",
+   "layout": "A＝家庭大管家｜B＝五类资源统管示意｜C＝三种片面说法划叉｜D＝结论条",
+   "prompt": "Flat illustration, landscape, four-zone layout, cream background, teal-blue and warm orange palette, rounded friendly shapes. Zone A (left, about 60% width): a home interior seen from above with a butler standing in the middle holding a ring of keys and a clipboard; around the butler five service points are visible — a water meter and valve, a distribution box, a storage room with labelled shelves, a tool cabinet, and a task board with pinned notes; family members relax in the living room with a cup of tea, not touching any of the equipment; the butler is connected to all five points by dotted lines; a rug, a plant and a side table complete the room; the butler is highlighted. Zone B (upper right): a central rounded core block with five thin arrows radiating to five resource blocks (a chip, a memory stick, a folder, a printer, a task list); beneath the core a wide platform holds three software icons, showing the core as a running platform for them; a small welcome-desk icon sits in front of the core to suggest a friendly user interface; a label plate sits under the core. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a single folder, a compiler-gear, and a language-translator box. Zone D (bottom full-width bar): a cream rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"操作系统\", \"统管资源\", \"提供方便\", \"大管家\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 14,
+   "title": "第 14 题 · 软件不只是应用软件",
+   "style": "层级剖面插画，浅灰白底，蓝青橙三层分色，简洁",
+   "ratio": "16:9",
+   "layout": "A＝缺了树根的树｜B＝系统软件与应用软件分层｜C＝三条正确表述打勾｜D＝结论条",
+   "prompt": "Layered cutaway infographic, landscape, four-zone layout, pale grey-white background, blue-teal-orange layered coloring, clean lines. Zone A (left, about 60% width): a large tree shown in cutaway with its root system exposed; a gardener has just cut away the whole root mass with an axe and holds it aside, leaving the trunk and branches standing unsupported and wobbling with small motion marks and falling leaves; a watering can, a wheelbarrow of soil, a spade and a basket of fruit sit on the ground; a warning sign leans against the trunk; the severed roots are drawn in a separate small pile with a red cross over them. Zone B (upper right): a two-tier software stack — the lower tier is thick, structural and tinted, holding three infrastructure blocks (a system gear, a translator box with a book emblem, a database cylinder); the upper tier is lighter and holds varied application icons; both tiers are bracketed together under one label plate reading as software; the lower tier is ticked and a small \"missing\" tag floats where it would be removed. Zone C (lower right): a pale card with three rows of small tags, each row ticked instead of crossed — a hardware-and-software pair, a chip-with-two-parts pair, and a host-with-memory pair. Zone D (bottom full-width bar): a pale rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"系统软件\", \"应用软件\", \"两大类\", \"缺根不行\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 15,
+   "title": "第 15 题 · 音频数据量＝采样率×量化位数×声道数×时间",
+   "style": "手绘板书风，白底，蓝黑笔迹 + 红笔重点，网格纸底纹",
+   "ratio": "16:9",
+   "layout": "A＝四条水管汇入大桶｜B＝四个因子相乘｜C＝算式与结果｜D＝结论条",
+   "prompt": "Hand-drawn chalkboard infographic, landscape, four-zone layout, white paper background with light grey grid lines, blue-black marker strokes, red pen highlights, plumbing and teaching-board feel. Zone A (left, about 60% width): four pipes of different thicknesses running from four labelled taps across the top and emptying into one large barrel at the bottom; each tap has a small meter showing a rate, and each pipe carries a short name plate; the barrel below has a measuring scale and its level is rising fast; a plumber adjusts one valve with a wrench while the other three are open; a puddle, a bucket and a toolbox lie at the base; the barrel is circled in red. Zone B (upper right): a four-factor multiplication diagram — four small icon cards (a metronome for the sampling rate, a ruler for bit depth, a pair of headphones for the two channels, a clock for the time) each send an arrow into a single large product box; the headphone card carries a bold red ring to stress the two channels; a small note tag beside the box shows the unit chain from bits to bytes to megabytes. Zone C (lower right): a hand-written calculation card with a chained multiplication, a conversion from bits to bytes, and a final multiplication by sixty seconds; the result is circled in red with a bold underline. Zone D (bottom full-width bar): a white rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"采样率\", \"量化位数\", \"双声道\", \"时间\" — bold marker style on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean paper.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 16,
+   "title": "第 16 题 · 1024 个 24×24 点阵汉字字形码占 72KB",
+   "style": "手绘板书 + 网格纸，米黄底，蓝黑墨水笔迹，红笔重点",
+   "ratio": "16:9",
+   "layout": "A＝一箱印章模具｜B＝单字 72 字节放大｜C＝算式卡｜D＝结论条",
+   "prompt": "Hand-drawn chalkboard infographic, landscape, four-zone layout, cream grid-paper background, blue-black marker strokes, red pen highlights, workshop and teaching-board feel. Zone A (left, about 60% width): a wooden crate on a workbench filled with neatly stacked square stamp blocks; each block's face is carved into a fine 24-by-24 mesh that forms one whole Chinese character in relief; a craftsman lifts one block out and presses it onto an ink pad, then stamps it on a sheet beside the crate; a tally sheet on the wall shows a count, and a counting abacus, a brush and a knife sit on the bench; the crate is circled in red. Zone B (upper right): one single block pulled out and enlarged; its mesh face is drawn in detail with tiny numbered ticks along both edges; a callout beside it isolates one tiny cell and groups eight cells into a bracket; a small plate under the mesh shows a short capacity value derived from the mesh size. Zone C (lower right): a hand-written calculation card with a two-step multiplication (mesh points divided by eight, then multiplied by the total count) and a final conversion into a larger unit; each step is underlined and the final answer is circled in red. Zone D (bottom full-width bar): a cream rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"24×24\", \"72 字节\", \"1024 个\", \"72KB\" — bold marker style on cream rounded plates, each label no more than five characters. 16:9 landscape, high resolution, clean paper.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 17,
+   "title": "第 17 题 · 1KB 等于 1024 Bytes",
+   "style": "等距微立体 3D，浅灰蓝底，纸箱与方块质感，天蓝 + 橙",
+   "ratio": "16:9",
+   "layout": "A＝一箱装 1024 粒｜B＝2 的 10 次方换算｜C＝两个对照数值｜D＝结论条",
+   "prompt": "Isometric 3D infographic, landscape, four-zone layout, pale grey-blue background, cardboard and cube textures, sky blue and orange palette, soft shadows. Zone A (left, about 60% width): a cardboard box standing open on a warehouse floor with its front flap showing a printed two-letter unit plate; inside, small uniform cubes are packed in neat layers; a worker with a scoop fills the last few slots and a counting display on the box front shows a four-digit number; a stack of lids, a tape dispenser and a trolley complete the floor; a small rejected pile of cubes sits off to one side with a cross mark; the box is highlighted. Zone B (upper right): two side-by-side counting boards — the left board shows a repeated doubling chain ending in 1024 with a power-of-two badge above it; the right board shows a decimal chain ending in 1000 and is crossed out; beneath both, a small badge compares a big cubical unit against eight tiny cubes to show the byte-versus-bit relation; the left board is ticked. Zone C (lower right): a pale card with two rows of small tags, each row showing a number beside a unit block; a smaller unit block is drawn with eight tiny cubes inside it; the upper row carries a green tick and the lower a red cross. Zone D (bottom full-width bar): a pale blue rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"1KB\", \"1024字节\", \"二的十次方\", \"不是一千\" — bold sans-serif on white rounded plates; the longest label is five characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 18,
+   "title": "第 18 题 · 汇编语言是依赖于计算机的低级程序设计语言",
+   "style": "层级剖面插画，浅灰白底，蓝青橙分层，简洁",
+   "ratio": "16:9",
+   "layout": "A＝记录机器方言的速记本｜B＝语言与机器关系｜C＝三种说法划叉｜D＝结论条",
+   "prompt": "Layered cutaway infographic, landscape, four-zone layout, pale grey-white background, blue-teal-orange layered coloring, clean lines. Zone A (left, about 60% width): a workshop bench with a shorthand notebook lying open beside a specific machine; the notebook's pages hold rows of short symbolic abbreviations, and each abbreviation is linked by a dotted line to a matching lever or panel on the machine; a worker copies from the machine into the book; a second, differently shaped machine stands nearby in the background, and the notebook's abbreviations do not match it — shown by a small cross mark over that pairing; a pencil, an eraser and a mug complete the bench; the notebook is highlighted. Zone B (upper right): a two-tier tower — the bottom tier is dark and solid and touches a machine base directly with a tight bracket marked as machine-dependent; the upper tier is bright and open with a dotted ladder down to the base, marked as machine-independent; a third small plate between the tiers is crossed out on the top-tier side, showing assembly does not belong up there; each tier carries a label plate. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a direct-run arrow into a chip, a globe independence icon, and a slow speedometer. Zone D (bottom full-width bar): a pale rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"汇编语言\", \"低级语言\", \"依赖机器\", \"效率高\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 19,
+   "title": "第 19 题 · ISP 是因特网服务提供商",
+   "style": "扁平图标化插画，浅蓝底，蓝青主色，营业厅元素",
+   "ratio": "16:9",
+   "layout": "A＝网络接入营业厅｜B＝服务商与用户链路｜C＝三种译名划叉｜D＝结论条",
+   "prompt": "Flat icon-style illustration, landscape, four-zone layout, pale blue background, blue and teal palette, service-counter elements, tidy. Zone A (left, about 60% width): a network-service shop front with a wide counter; a customer fills in a broadband application form while a staff member behind the counter checks the account and hands over a small router in a box; on the wall hang a tariff board with plan rows and a poster with a globe and a cable; a queue rail, a waiting sofa and a potted plant complete the shop; a technician carrying a tool bag heads out of a side door; the counter is highlighted. Zone B (upper right): a simple chain — a provider building icon on the left, a cable and a router in the middle, and a home computer on the right; an arrow runs from the building to the home through the router; a small badge above the building shows a globe with a handshake; small label plates sit under the building and the home. Zone C (lower right): a pale card with three rows of small tags, each row struck through with a thin grey line — a product box, a protocol sheet, and a program window. Zone D (bottom full-width bar): a pale blue rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"ISP\", \"服务提供商\", \"提供接入\", \"营业厅\" — bold sans-serif on white rounded plates, each label no more than five characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  },
+  {
+   "no": 20,
+   "title": "第 20 题 · 硬件五大部件还缺输入设备",
+   "style": "等距微立体 3D，浅灰蓝底，拼图与金属质感，天蓝 + 橙",
+   "ratio": "16:9",
+   "layout": "A＝五格拼图缺一块｜B＝五大部件构成表｜C＝三种具体设备划叉｜D＝结论条",
+   "prompt": "Isometric 3D infographic, landscape, four-zone layout, pale grey-blue background, jigsaw and metal textures, sky blue and orange palette, soft shadows. Zone A (left, about 60% width): a five-slot jigsaw base board on a workbench; four slots are already filled with snugly fitted pieces (a chip piece, a memory piece, a monitor piece and a printer piece), while the fifth slot is empty with a large question-mark card standing in it and a soft glow around the gap; a worker holds a spare piece in each hand comparing them with a puzzled look; a tray of loose pieces, a lamp and a mug sit on the bench; the empty slot is circled in orange. Zone B (upper right): a five-cell row of equal blocks, each holding one component icon (a chip, a memory stick, an input device, an output device, a storage block); the chips and memory are drawn merged to show the processor group; four cells carry a green tick and the input-device cell is highlighted with a pulsing outline and a small arrow pointing to it; a label plate sits under the row. Zone C (lower right): a pale card with three rows of small concrete-device icons (a keyboard, a mouse, a monitor), each row struck through with a thin grey line. Zone D (bottom full-width bar): a pale rounded conclusion strip with a green check badge. Text on the image is Simplified Chinese only, in four short labels: \"五大部件\", \"还缺一个\", \"输入设备\", \"不是键盘\" — bold sans-serif on white rounded plates, each label no more than four characters. 16:9 landscape, high resolution, clean background.",
+   "neg": "见通用规则第 5 条",
+   "neg_extra": "",
+   "prompt_override": ""
+  }
+ ],
+ "count": 20
+}
