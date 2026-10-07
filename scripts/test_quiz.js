@@ -3,9 +3,10 @@
  * 运行：node test_quiz.js
  */
 const fs = require('fs');
+const path = require('path');
 const vm = require('vm');
 
-const HTML = 'C:/Users/18271/Documents/选择题/output/24套选择题刷题系统.html';
+const HTML = path.join(__dirname, '..', 'web', '24套选择题刷题系统.html');
 const html = fs.readFileSync(HTML, 'utf8');
 
 const dm = html.match(/<script id="quiz-data" type="application\/json">([\s\S]*?)<\/script>/);
@@ -30,7 +31,8 @@ const fakeCtx = {
 function mkEl(id) {
   const el = {
     id, value: '', _html: '', textContent: '', disabled: false, checked: true,
-    className: '', style: {}, _handlers: {}, parentNode: null, children: [], download: '',
+    className: '', _handlers: {}, parentNode: null, children: [], download: '',
+    style: { setProperty(k, v) { this[k] = v; }, getPropertyValue(k) { return this[k]; } },
     appendChild(c) { this.children.push(c); if (c) c.parentNode = this; return c; },
     removeChild(c) { const i = this.children.indexOf(c); if (i >= 0) this.children.splice(i, 1); },
     scrollIntoView() {}, select() {},
@@ -111,32 +113,63 @@ ok(Q.SETS.every(s => s.items.length === 20), '每套均为 20 题');
 ok(Q.SETS.every(s => s.items.every(q => q.answer && 'ABCD'.indexOf(q.answer) >= 0)), '每题都有答案');
 ok(Q.SETS.every(s => s.items.every(q => q.options.A && q.options.B && q.options.C && q.options.D)), '每题四个选项齐全');
 
-/* ---------------- 页面排版切换（单列 / 两栏） ---------------- */
+/* ---------------- 页面排版切换（默认单列，可切两栏） ---------------- */
 const htmlBeforeLayout = HTML_APP();
-ok(Q.layout() === 'split', '默认排版为「两栏」（实际 ' + Q.layout() + '）');
-ok(!ctx.document.body.classList.contains('lay-single'), '默认 body 上没有 lay-single 类');
-ok(Q.setLayout('single') === true, '切到「单列」返回 true');
-ok(Q.layout() === 'single', '状态已切换为 single');
-ok(ctx.document.body.classList.contains('lay-single'),
-  'body 挂上了 lay-single（单列靠它把网格收成一列）');
-ok(store['quiz_layout_v1'] === 'single', '排版偏好已写入 localStorage（实际 ' + store['quiz_layout_v1'] + '）');
-ok(Q.setLayout('single') === false, '重复选同一模式不做多余动作（返回 false）');
+ok(Q.layout() === 'single', '默认排版为「单列」（实际 ' + Q.layout() + '）');
+ok(ctx.document.body.classList.contains('lay-single'), '默认 body 上已挂 lay-single');
+ok(Q.setLayout('split') === true, '切到「两栏」返回 true');
+ok(Q.layout() === 'split', '状态已切换为 split');
+ok(!ctx.document.body.classList.contains('lay-single'), '切到两栏后 lay-single 被移除');
+ok(store['quiz_layout_v1'] === 'split', '排版偏好已写入 localStorage（实际 ' + store['quiz_layout_v1'] + '）');
+ok(Q.setLayout('split') === false, '重复选同一模式不做多余动作（返回 false）');
 ok(Q.setLayout('bogus') === false, '非法模式被拒绝');
-ok(Q.layout() === 'single', '非法值不会污染当前模式');
-ok(Q.setLayout('split') === true && !ctx.document.body.classList.contains('lay-single'),
-  '切回「两栏」后 lay-single 被移除');
-ok(store['quiz_layout_v1'] === 'split', '切回后偏好同步更新');
+ok(Q.layout() === 'split', '非法值不会污染当前模式');
+ok(Q.setLayout('single') === true && ctx.document.body.classList.contains('lay-single'),
+  '切回「单列」后 lay-single 回来');
+ok(store['quiz_layout_v1'] === 'single', '切回后偏好同步更新');
 ok(HTML_APP() === htmlBeforeLayout, '切换排版不触发重渲染（app 区 HTML 逐字节未变）');
 store['quiz_layout_v1'] = 'weird';
-ok(Q.loadLayout() === 'split', 'localStorage 存了脏值 → 回落到默认两栏');
-store['quiz_layout_v1'] = 'single';
-ok(Q.loadLayout() === 'single', '合法值能正常读回');
+ok(Q.loadLayout() === 'single', 'localStorage 存了脏值 → 回落到默认单列');
+store['quiz_layout_v1'] = 'split';
+ok(Q.loadLayout() === 'split', '合法值能正常读回');
 delete store['quiz_layout_v1'];
+
+/* ---------------- 首次打开的排版引导 ---------------- */
+ok(typeof Q.maybeShowLayoutTip === 'function' && typeof Q.closeLayoutTip === 'function',
+  '引导相关 API 已暴露');
+ok(Q.layoutTipDone() === false, '全新环境：引导还没看过');
+ok(Q.layoutTipOn() === true, '首次打开（无任何本地记录）自动弹出排版引导');
+ok(store['quiz_layout_tip_v1'] === undefined, '仅仅是「显示」还不算看过（未写标记）');
+Q.closeLayoutTip();
+ok(Q.layoutTipOn() === false, '关掉「就用单列」后引导收起');
+ok(Q.layoutTipDone() === true && store['quiz_layout_tip_v1'] === '1', '关闭后标记「已看过」');
+Q.maybeShowLayoutTip();
+ok(Q.layoutTipOn() === false, '看过之后不再出现');
+delete store['quiz_layout_tip_v1'];
+store['quiz_layout_v1'] = 'split';
+Q.maybeShowLayoutTip();
+ok(Q.layoutTipOn() === false, '自己主动选过排版的老用户不会再被引导打扰');
+delete store['quiz_layout_v1'];
+ctx.innerWidth = 900;
+delete store['quiz_layout_tip_v1'];
+Q.maybeShowLayoutTip();
+ok(Q.layoutTipOn() === false, '窄屏（≤1080px，开关本身隐藏）不弹引导');
+ctx.innerWidth = 1200;
+Q.setLayout('single');
+Q.handleAct({ getAttribute: k => (k === 'data-act' ? 'tip-split' : null) });
+ok(Q.layout() === 'split', '点「切换成两栏」会真的切成两栏');
+ok(Q.layoutTipOn() === false, '点过引导按钮后气泡收起');
+Q.setLayout('single');   // 复位，后续断言按单列走
 
 /* 产物里的静态结构与 CSS 规则 */
 ok(html.indexOf('class="layseg"') > 0, '顶栏存在排版切换控件');
 ok(html.indexOf('data-act="layout" data-mode="single"') > 0
   && html.indexOf('data-act="layout" data-mode="split"') > 0, '切换控件含「单列」「两栏」两个按钮');
+ok(html.indexOf('data-act="layout" data-mode="single" class="on"') > 0, '「单列」按钮默认就是选中态');
+ok(html.indexOf('id="layoutTip"') > 0, '产物含排版引导气泡');
+ok(html.indexOf('data-act="tip-split"') > 0 && html.indexOf('data-act="tip-close"') > 0,
+  '引导气泡含「切换成两栏」「就用单列」两个按钮');
+ok(html.indexOf('quiz_layout_tip_v1') > 0, '引导「已看过」的存储键在产物脚本里');
 ok(/body\.lay-single \.split\{grid-template-columns:minmax\(0,1fr\);gap:0;\}/.test(html),
   '单列模式把网格收成一列的规则已进产物');
 ok(html.indexOf('body.lay-single .split>.col-b{position:static;}') > 0,
@@ -492,11 +525,11 @@ Q.beginLevel();   // 恢复：第 1 套第 1 关预览，供后面的配图断�
 /* ---------------- 解析配图 ---------------- */
 // 以 output/images/set_XX/ 里实际有没有图为准，别把「第几套有图」写死 ——
 // 每补一套图都要改测试的话，测试会因为数据变了而假失败。
-const IMG_ROOT = 'C:/Users/18271/Documents/选择题/output/images';
+const IMG_ROOT = path.join(__dirname, '..', 'images');
 const pad2 = n => (n < 10 ? '0' + n : '' + n);
 const setsWithImg = [], setsNoImg = [];
 Q.SETS.forEach(s => {
-  const has = [1, 2, 20].every(n => fs.existsSync(IMG_ROOT + '/set_' + pad2(s.set) + '/' + n + '.png'));
+  const has = [1, 2, 20].every(n => fs.existsSync(path.join(IMG_ROOT, 'set_' + pad2(s.set), n + '.png')));
   (has ? setsWithImg : setsNoImg).push(s);
 });
 ok(setsWithImg.length >= 1, '至少有一套已配图（实际 ' + setsWithImg.length + ' 套）');

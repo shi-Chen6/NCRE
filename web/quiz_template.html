@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>全国计算机等级考试选择题高分刷题</title>
+<link rel="icon" type="image/jpeg" href="__AUTHOR_IMG__">
 <style>
 :root{
   --bg:#f4f6fa; --card:#ffffff; --ink:#1f2d3d; --sub:#6b7a8d;
@@ -295,6 +296,42 @@ body.lay-single .topbar .inner{max-width:1000px;}
   .split>.col-b{position:static !important;}
   .split>.col-b .expimg{margin-top:12px;}
 }
+/* ---------- 版权署名（陈梓涛） ---------- */
+.authorbadge{
+  position:fixed;right:18px;bottom:18px;z-index:90;
+  display:flex;align-items:center;gap:8px;
+  padding:5px 13px 5px 6px;border-radius:999px;
+  background:rgba(255,255,255,.93);backdrop-filter:blur(6px);
+  border:1px solid var(--line);box-shadow:0 2px 10px rgba(31,45,61,.10);
+  font-size:13px;color:var(--sub);user-select:none;cursor:default;transition:.18s;
+  opacity:.72;
+}
+.authorbadge:hover{border-color:var(--brand-line);color:var(--ink);box-shadow:0 4px 16px rgba(47,93,158,.16);opacity:1;}
+.authorbadge img{width:26px;height:26px;border-radius:50%;object-fit:cover;display:block;border:1px solid var(--line);}
+.authorbadge b{color:var(--ink);font-weight:600;}
+/* ---------- 首次打开的排版引导（贴在「单列 / 两栏」开关下方） ---------- */
+.tip{
+  position:fixed;z-index:95;width:min(344px,calc(100vw - 32px));padding:16px 18px 14px;
+  background:#fff;border:1px solid var(--brand-line);border-radius:14px;
+  box-shadow:0 12px 34px rgba(31,45,61,.16);
+  display:none;opacity:0;transform:translateY(-8px);
+  transition:opacity .2s ease,transform .2s ease;
+}
+.tip.on{display:block;}
+.tip.show{opacity:1;transform:none;}
+.tip::after{
+  content:"";position:absolute;top:-7px;right:var(--arrow-right,30px);
+  width:12px;height:12px;background:#fff;transform:rotate(45deg);
+  border-left:1px solid var(--brand-line);border-top:1px solid var(--brand-line);
+}
+.tip h4{margin:0 0 6px;font-size:14.5px;color:var(--ink);}
+.tip p{margin:0;font-size:13px;color:var(--sub);line-height:1.75;}
+.tip p b{color:var(--brand);}
+.tip .tiprow{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap;}
+@media (max-width:620px){
+  .authorbadge{right:12px;bottom:12px;padding:4px 10px 4px 5px;font-size:12px;}
+  .authorbadge img{width:22px;height:22px;}
+}
 </style>
 </head>
 <body>
@@ -305,8 +342,8 @@ body.lay-single .topbar .inner{max-width:1000px;}
     <div class="spacer"></div>
     <div class="meta" id="topMeta"></div>
     <div class="layseg" id="laySeg" role="group" aria-label="页面排版">
-      <button data-act="layout" data-mode="single" title="配图排在解析下方">单列</button>
-      <button data-act="layout" data-mode="split" class="on" title="配图常驻在解析右侧">两栏</button>
+      <button data-act="layout" data-mode="single" class="on" title="配图排在解析下方">单列</button>
+      <button data-act="layout" data-mode="split" title="配图常驻在解析右侧">两栏</button>
     </div>
     <button class="ghost sm" data-act="home" id="btnHome">返回首页</button>
   </div>
@@ -320,6 +357,23 @@ body.lay-single .topbar .inner{max-width:1000px;}
 <div class="imgbox" id="imgbox" data-act="closeimg">
   <img id="imgboxImg" alt="配图放大预览" />
   <div class="hint">点击任意处或按 Esc 关闭</div>
+</div>
+
+<!-- 首次打开：排版引导（看过一次就不再出现） -->
+<div class="tip no-print" id="layoutTip" role="dialog" aria-label="排版引导">
+  <h4>排版可以先选一下</h4>
+  <p>现在是<b>单列</b>，讲解配图排在解析文字的下方，读起来连贯。
+     屏幕够宽的话，切到<b>两栏</b>能让配图常驻在解析右侧，边看解析边对照图。</p>
+  <div class="tiprow">
+    <button class="primary sm" data-act="tip-split">切换成两栏</button>
+    <button class="ghost sm" data-act="tip-close">就用单列</button>
+  </div>
+</div>
+
+<!-- 版权署名：常驻右下角 -->
+<div class="authorbadge no-print" title="版权所有 ©陈梓涛">
+  <img src="__AUTHOR_IMG__" alt="陈梓涛" />
+  <span>©<b>陈梓涛</b></span>
 </div>
 
 <script id="quiz-data" type="application/json">__DATA_JSON__</script>
@@ -350,12 +404,13 @@ var progress = loadProgress();
    两栏靠 CSS Grid 实现，配图那一栏在 DOM 里本就排在文字之后，
    所以「单列」只是把网格收成一列 —— 渲染逻辑完全不用动。 */
 var LS_LAYOUT = "quiz_layout_v1";
+var LS_TIP = "quiz_layout_tip_v1";     // 首次「排版引导」是否已经展示过
 var LAYOUTS = ["single", "split"];
 function loadLayout(){
   try{
     var v = localStorage.getItem(LS_LAYOUT);
-    return (v === "single" || v === "split") ? v : "split";   // 默认两栏
-  }catch(e){ return "split"; }
+    return (v === "single" || v === "split") ? v : "single";   // 默认单列
+  }catch(e){ return "single"; }
 }
 function saveLayout(){
   try{ localStorage.setItem(LS_LAYOUT, S.layout); }catch(e){}
@@ -386,6 +441,55 @@ function setLayout(m){
   return true;
 }
 
+/* ---------- 首次打开的排版引导 ----------
+   只在「没看过引导」且「没主动选过排版」时出现一次；
+   窄屏（≤1080px）开关本身被 CSS 隐藏，这时就不弹。 */
+function layoutTipDone(){
+  try{ return localStorage.getItem(LS_TIP) === "1"; }catch(e){ return true; }
+}
+function markLayoutTipDone(){
+  try{ localStorage.setItem(LS_TIP, "1"); }catch(e){}
+}
+function layoutTipOn(){
+  var tip = document.getElementById("layoutTip");
+  return !!(tip && tip.classList && tip.classList.contains("on"));
+}
+/* 把气泡贴到「单列 / 两栏」开关正下方，箭头对准开关中心 */
+function placeLayoutTip(){
+  var seg = document.getElementById("laySeg");
+  var tip = document.getElementById("layoutTip");
+  if (!seg || !tip) return false;
+  var r = seg.getBoundingClientRect();
+  if (!r.width || !r.height) return false;          // 开关被隐藏（窄屏）
+  tip.style.top = Math.round(r.bottom + 14) + "px";
+  tip.style.right = Math.round(Math.max(16, window.innerWidth - r.right)) + "px";
+  var w = tip.offsetWidth || 340;
+  var centerFromRight = window.innerWidth - (r.left + r.width / 2);
+  tip.style.setProperty("--arrow-right",
+    Math.round(Math.max(20, Math.min(w - 20, centerFromRight))) + "px");
+  return true;
+}
+function showLayoutTip(){
+  var tip = document.getElementById("layoutTip");
+  if (!tip || layoutTipOn()) return;
+  tip.classList.add("on");
+  if (!placeLayoutTip()){ tip.classList.remove("on"); return; }
+  setTimeout(function(){ tip.classList.add("show"); }, 30);
+}
+function closeLayoutTip(){
+  var tip = document.getElementById("layoutTip");
+  if (!tip || !tip.classList || !tip.classList.contains("on")) return;
+  markLayoutTipDone();
+  tip.classList.remove("show");
+  setTimeout(function(){ tip.classList.remove("on"); }, 200);
+}
+function maybeShowLayoutTip(){
+  if (layoutTipDone()) return;
+  try{ if (localStorage.getItem(LS_LAYOUT) != null) return; }catch(e){ return; }
+  if (typeof window === "undefined" || window.innerWidth <= 1080) return;
+  setTimeout(showLayoutTip, 500);
+}
+
 /* ==================== 会话状态 ==================== */
 var S = {
   view: "home",        // home | quiz | done
@@ -412,7 +516,7 @@ var S = {
   levelStat: {},       // 关卡下标 -> {right,total,secs,streak}
   name: "",
   certStyle: "simple",
-  layout: loadLayout()   // 页面排版：single（原先：配图在解析下）| split（现在：图在右侧常驻）
+  layout: loadLayout()   // 页面排版：single（默认，配图排在解析下方）| split（配图常驻解析右侧）
 };
 
 /* 关卡：小关数由题量算出来，后面固定跟两个特殊关 —— 错题订正关、整套重刷关。
@@ -1364,6 +1468,8 @@ function handleAct(el){
   else if (act === "retry-again") retryAgain();
   else if (act === "home") goHome();
   else if (act === "layout") setLayout(el.getAttribute("data-mode"));
+  else if (act === "tip-split"){ setLayout("split"); closeLayoutTip(); }
+  else if (act === "tip-close") closeLayoutTip();
   else if (act === "reset-set") resetSet();
   else if (act === "redo") openSet(S.setIdx);
   else if (act === "cert-style"){ S.certStyle = el.getAttribute("data-style"); render(); }
@@ -1405,6 +1511,11 @@ function bindEvents(){
       el = el.parentNode;
     }
     if (found) handleAct(found);
+    // 排版引导：点到气泡外（包括顶部的单列/两栏开关）就收起，且不再出现
+    if (layoutTipOn()){
+      var t = e && e.target;
+      if (!(t && t.closest && t.closest("#layoutTip"))) closeLayoutTip();
+    }
   });
   document.addEventListener("input", function(e){
     var t = e && e.target;
@@ -1418,6 +1529,7 @@ function bindEvents(){
     // 配图放大打开时，Esc 优先关闭它，且不让 ←/→/1-4 继续透到答题逻辑
     if (e.key === "Escape" && imgBoxOpen()){ closeImgBox(); return; }
     if (imgBoxOpen()) return;
+    if (e.key === "Escape" && layoutTipOn()){ closeLayoutTip(); return; }
     if (S.view !== "quiz") return;
     if (S.stage === "study" && S.mode !== "answer") return;
     if (e.key === "ArrowLeft") prev();
@@ -1426,6 +1538,13 @@ function bindEvents(){
       pick(["A","B","C","D"][parseInt(e.key, 10) - 1]);
     }
   });
+  if (typeof window !== "undefined" && window.addEventListener){
+    window.addEventListener("resize", function(){
+      if (!layoutTipOn()) return;
+      if (window.innerWidth <= 1080) closeLayoutTip();   // 窄屏开关已隐藏，收起引导
+      else placeLayoutTip();                             // 重新贴到开关正下方
+    });
+  }
 }
 
 var booted = false;
@@ -1433,8 +1552,9 @@ function boot(){
   if (booted) return;
   booted = true;
   bindEvents();
-  applyLayout();     // 恢复上次选的排版（默认两栏）
+  applyLayout();     // 恢复上次选的排版（首次进入默认单列）
   render();
+  maybeShowLayoutTip();   // 第一次打开时引导一下排版选择
 }
 
 if (typeof document !== "undefined" && document.readyState && document.readyState !== "loading") boot();
@@ -1492,6 +1612,11 @@ window.__quiz = {
   setLayout: setLayout,
   applyLayout: applyLayout,
   loadLayout: loadLayout,
+  layoutTipDone: layoutTipDone,
+  layoutTipOn: layoutTipOn,
+  showLayoutTip: showLayoutTip,
+  closeLayoutTip: closeLayoutTip,
+  maybeShowLayoutTip: maybeShowLayoutTip,
   progress: function(){ return progress; }
 };
 })();

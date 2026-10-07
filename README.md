@@ -16,12 +16,15 @@
 ├─ prompts/         生图提示词 第N套题20题知识点讲解生图提示词.md / .docx
 ├─ docs/            汇总文档   24套选择题题库.docx / .xlsx
 ├─ web/             刷题网页   24套选择题刷题系统.html（单文件离线可用）+ 模板
+├─ assets/          署名资产   author.jpg / author_thumb.jpg / author.ico
+├─ packaging/       桌面宿主   desktop/main.py（exe 入口）
 ├─ source/          原始题源   set_01 … set_24（每题一张截图，用于溯源校对）
 ├─ scripts/         构建脚本
+├─ dist/            exe 产物（.gitignore）
 └─ image-gen/       批量生图工作台（Flask + 原生前端，无构建）
 ```
 
-> `images/`（题目配图）与 `image-gen/output/`（生图产物）体积大且可重新生成，已列入 `.gitignore` 不入库。
+> `images/`（题目配图）、`image-gen/output/`（生图产物）、`build/` 与 `dist/`（打包中间与产物）体积大且可重新生成，已列入 `.gitignore` 不入库。
 
 ---
 
@@ -73,12 +76,14 @@
 | `scripts/build_prompt_doc.py` | 提示词 Markdown → 清爽排版的 Word | `prompts/第N套…docx` |
 | `scripts/fetch_images.py` | 抓取/压缩题目配图（外链或本地目录两种来源） | `images/set_NN/<题号>.png` |
 | `scripts/test_quiz.js` | 刷题网页逻辑的 Node 自测 | — |
+| `scripts/build_exe.py` | 网页 + 宿主程序打包成 Windows 单文件 exe | `dist/全国计算机等级考试选择题高分刷题.exe` |
 
 ```bash
 python scripts/build_quiz_html.py
 python scripts/build_docs.py
 python scripts/build_prompt_doc.py prompts/第1套题20题知识点讲解提示词.md
 python scripts/fetch_images.py 1 --from-dir "D:/某目录/第1套配图"
+python scripts/build_exe.py            # 先跑上面的 build_quiz_html.py 再打包
 ```
 
 脚本内部路径均以脚本所在位置解析，**克隆到任意目录都可直接运行**。
@@ -88,6 +93,26 @@ python scripts/fetch_images.py 1 --from-dir "D:/某目录/第1套配图"
 ```bash
 pip install python-docx openpyxl pillow
 ```
+
+---
+
+## 打包成单文件 exe（Windows）
+
+```bash
+python scripts/build_quiz_html.py     # 先生成网页
+python scripts/build_exe.py           # 再打包（自动跑一次端到端自检）
+```
+
+产出 `dist/全国计算机等级考试选择题高分刷题.exe`（约 42 MB），双击即用：
+
+- 首次运行把 47 MB 题库释放到 `%LOCALAPPDATA%\NCREQuiz\`，之后启动秒开
+- 用 **Chrome / Edge 的 `--app` 模式**打开，得到无地址栏、无标签栏的独立窗口；两者都没装时降级调用系统默认浏览器
+- 答题进度存在题库自己的 `--user-data-dir` 下，**不会丢，也不会污染日常浏览器配置**
+- 署名：右下角常驻悬浮徽标（头像 + ©陈梓涛），窗口图标同为头像，打印时自动隐藏
+- 版式默认**单列**（配图排在解析下方）；**第一次打开**会弹一个引导气泡，指向顶栏的「单列 / 两栏」开关，看过一次就不再出现
+
+> 曾试过 pywebview / WebView2 内嵌窗口，但本机实测其**无法完成 `file://` 页面导航**（`loaded` 事件 120 秒不触发，且与页面体积无关——摘掉配图压到 0.5 MB 也一样），故改用浏览器 `--app`。
+> 打包依赖：`pip install pyinstaller`。自检失败时可加 `--skip-selftest` 只出包。
 
 ---
 

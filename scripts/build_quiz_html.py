@@ -42,6 +42,15 @@ def image_data_uri(set_no, no):
     return uri
 
 
+def author_data_uri():
+    """署名头像 → data URI。内嵌后断网也能显示，不依赖外部图床。"""
+    p = os.path.join(BASE, "assets", "author_thumb.jpg")
+    if not os.path.exists(p):
+        return ""
+    with open(p, "rb") as f:
+        return "data:image/jpeg;base64," + base64.b64encode(f.read()).decode("ascii")
+
+
 # 结论句：故选 B / 答案：D / 所以选 B …
 ANS_PAT = re.compile(
     r"(?:故应选|故选|因此应选|应选|所以选|因此选|答案为|正确答案[是为]|正确选项[是为]|选择|选)"
@@ -145,14 +154,24 @@ def main():
         raise SystemExit("模板中未找到 __DATA_JSON__ 占位符")
 
     out = tpl.replace("__DATA_JSON__", data_json)
+
+    # 署名头像：内嵌为 data URI
+    a_uri = author_data_uri()
+    if "__AUTHOR_IMG__" in out and not a_uri:
+        raise SystemExit("模板含 __AUTHOR_IMG__ 占位符，但 assets/author_thumb.jpg 不存在")
+    out = out.replace("__AUTHOR_IMG__", a_uri)
+    if "__AUTHOR_IMG__" in out:
+        raise SystemExit("__AUTHOR_IMG__ 替换失败")
+
     with open(DST, "w", encoding="utf-8") as f:
         f.write(out)
 
     size = os.path.getsize(DST) / 1024.0
     print("生成:", DST)
-    print("套数: %d | 题目: %d | 普通解析含高亮: %d | 零基础详解: %d | 配图: %d 张（%.1f MB）| 文件大小: %.0f KB"
+    print("套数: %d | 题目: %d | 普通解析含高亮: %d | 零基础详解: %d | 配图: %d 张（%.1f MB）| 署名头像: %s | 文件大小: %.0f KB"
           % (len(payload["sets"]), stat["total"], stat["highlighted"], stat["easy"],
-             stat["images"], stat["img_bytes"] / 1024 / 1024, size))
+             stat["images"], stat["img_bytes"] / 1024 / 1024,
+             ("已内嵌 %.1f KB" % (len(a_uri) / 1024.0)) if a_uri else "无", size))
 
 
 if __name__ == "__main__":
