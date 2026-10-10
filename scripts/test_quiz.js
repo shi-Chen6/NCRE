@@ -402,6 +402,29 @@ ok(/张三_第1套_通关证书\.png/.test(downloads[0]), '导出文件名为「
 Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'print' : null) });
 ok(calls.printed === 1, '触发打印（另存为 PDF）');
 
+/* ---------------- 安卓 App 适配（原生桥 AndroidSave） ---------------- */
+ok(Q.inAndroidApp() === false, '没有原生桥时判定为普通浏览器环境');
+ok(HTML_APP().indexOf('data-act="print"') >= 0, '浏览器环境保留「打印 / 另存为 PDF」入口');
+ok(HTML_APP().indexOf('下载 PNG') >= 0, '浏览器环境按钮文案为「下载 PNG」');
+
+const savedToAlbum = [];
+ctx.AndroidSave = { png: (d, n) => { savedToAlbum.push([d, n]); } };
+ok(Q.inAndroidApp() === true, '注入 AndroidSave 后判定为安卓 App 环境');
+Q.render();                       // 按安卓环境重新渲染证书区
+h = HTML_APP();
+ok(h.indexOf('data-act="print"') < 0, '安卓环境隐藏打印入口（WebView 里打印没有意义）');
+ok(h.indexOf('保存到相册') >= 0, '安卓环境按钮文案变为「保存到相册」');
+
+const dlBefore = downloads.length;
+Q.downloadPNG();
+ok(savedToAlbum.length === 1, '导出走原生桥存相册（调用 ' + savedToAlbum.length + ' 次）');
+ok(downloads.length === dlBefore, '安卓环境不再走 <a download>');
+ok(savedToAlbum[0][0].indexOf('data:image/png;base64,') === 0, '交给原生的是 PNG data URL');
+ok(/张三_第1套_通关证书\.png/.test(savedToAlbum[0][1]),
+  '原生收到的文件名带姓名与套号（实际 ' + savedToAlbum[0][1] + '）');
+delete ctx.AndroidSave;
+Q.render();                       // 还原成浏览器环境
+
 /* ---------------- 零基础详解与遮蔽逻辑 ---------------- */
 ok(Q.SETS.every(s => s.items.every(q => q.easy && q.easy.length > 100)), '每题都带零基础详解');
 ok(Q.SETS.every(s => s.items.every(q => q.easy.indexOf('**') < 0 && q.easy.indexOf('##') < 0)), '零基础详解不含 Markdown 符号');

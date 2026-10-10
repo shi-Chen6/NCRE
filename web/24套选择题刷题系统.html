@@ -1309,10 +1309,12 @@ function renderDone(){
     + '<button data-act="cert-style" data-style="simple"' + (S.certStyle === "simple" ? ' class="on"' : "") + '>简约专业</button>'
     + '<button data-act="cert-style" data-style="gold"' + (S.certStyle === "gold" ? ' class="on"' : "") + '>红金喜庆</button>'
     + '</div>'
-    + '<button class="primary" data-act="download-png">下载 PNG</button>'
-    + '<button data-act="print">打印 / 另存为 PDF</button></div>'
+    + '<button class="primary" data-act="download-png">' + (inAndroidApp() ? "保存到相册" : "下载 PNG") + '</button>'
+    + (inAndroidApp() ? '' : '<button data-act="print">打印 / 另存为 PDF</button>') + '</div>'
     + '<canvas id="certCanvas"></canvas>'
-    + '<div class="note no-print">提示：输入姓名后证书会立即更新；「打印 / 另存为 PDF」在弹出的打印窗口中选择「另存为 PDF」即可。</div>'
+    + '<div class="note no-print">' + (inAndroidApp()
+        ? '提示：输入姓名后证书会立即更新；点「保存到相册」即可把证书存进手机相册。'
+        : '提示：输入姓名后证书会立即更新；「打印 / 另存为 PDF」在弹出的打印窗口中选择「另存为 PDF」即可。') + '</div>'
     + '<div class="btnrow no-print" style="margin-top:16px">'
     + '<button data-act="redo">重刷本套</button>'
     + '<button data-act="reset-set">清除本套记录</button>'
@@ -1395,13 +1397,27 @@ function drawCert(){
   g.fillText("日期：" + ((progress[setObj().set] && progress[setObj().set].date) || todayStr()), 100, 618);
 }
 
+/* 是否跑在安卓 App 的 WebView 里（原生桥由 MainActivity 注入）——
+   是的话导出成绩单走相册、打印入口也藏起来（WebView 里打印没有意义） */
+function inAndroidApp(){
+  return !!(window.AndroidSave && typeof window.AndroidSave.png === "function");
+}
+
 function downloadPNG(){
   var cv = document.getElementById("certCanvas");
   if (!cv || typeof cv.toDataURL !== "function") return;
   var nm = (S.name || "学员").replace(/[\\/:*?"<>|]/g, "");
+  var fileName = nm + "_第" + setObj().set + "套_通关证书.png";
+  var dataUrl = cv.toDataURL("image/png");
+
+  // 安卓 App：WebView 里 <a download> 不生效，交给原生代码存进相册
+  if (inAndroidApp()){
+    try{ window.AndroidSave.png(dataUrl, fileName); return; }catch(e){}
+  }
+
   var a = document.createElement("a");
-  a.href = cv.toDataURL("image/png");
-  a.download = nm + "_第" + setObj().set + "套_通关证书.png";
+  a.href = dataUrl;
+  a.download = fileName;
   if (document.body && document.body.appendChild) document.body.appendChild(a);
   if (typeof a.click === "function") a.click();
   if (document.body && document.body.removeChild) document.body.removeChild(a);
@@ -1617,6 +1633,7 @@ window.__quiz = {
   showLayoutTip: showLayoutTip,
   closeLayoutTip: closeLayoutTip,
   maybeShowLayoutTip: maybeShowLayoutTip,
+  inAndroidApp: inAndroidApp,
   progress: function(){ return progress; }
 };
 })();

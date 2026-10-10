@@ -17,7 +17,7 @@
 ├─ docs/            汇总文档   24套选择题题库.docx / .xlsx
 ├─ web/             刷题网页   24套选择题刷题系统.html（单文件离线可用）+ 模板
 ├─ assets/          署名资产   author.jpg / author_thumb.jpg / author.ico
-├─ packaging/       桌面宿主   desktop/main.py（exe 入口）
+├─ packaging/       打包工程   desktop/（exe 宿主）· android/（APK 工程）
 ├─ source/          原始题源   set_01 … set_24（每题一张截图，用于溯源校对）
 ├─ scripts/         构建脚本
 ├─ dist/            exe 产物（.gitignore）
@@ -113,6 +113,29 @@ python scripts/build_exe.py           # 再打包（自动跑一次端到端自�
 
 > 曾试过 pywebview / WebView2 内嵌窗口，但本机实测其**无法完成 `file://` 页面导航**（`loaded` 事件 120 秒不触发，且与页面体积无关——摘掉配图压到 0.5 MB 也一样），故改用浏览器 `--app`。
 > 打包依赖：`pip install pyinstaller`。自检失败时可加 `--skip-selftest` 只出包。
+
+---
+
+## 打包成安卓 APK
+
+```bash
+python packaging/android/make_icons.py     # 生成应用图标（需要 pillow）
+python packaging/android/setup_sdk.py      # 首次构建：装 Android SDK 组件
+python packaging/android/build_apk.py      # 出包
+```
+
+产出 `dist/选择题刷题.apk`（约 35 MB），传到手机即可安装：
+
+- 应用名「选择题刷题」，桌面图标为头像（自适应图标 + 传统图标都做了），竖屏，**Android 7.0 及以上**
+- 页面本体就是 `web/24套选择题刷题系统.html`，原样塞进 `assets/`，**离线可用**
+- 答题进度存在 WebView 的 localStorage，卸载才会清；返回键接管为页面后退
+- 「导出成绩单」走原生桥存进相册 `Pictures/选择题刷题`；「打印」在手机上没有意义，已自动隐藏
+- 自签名证书放在 `packaging/android/keystore/quiz.jks`（**首次安装需在手机上允许「未知来源」**）；后续构建复用它，签名保持一致
+- **签名私钥与口令不入库**（公开仓库里放私钥等于把包名送人）。构建时口令取自环境变量 `NCRE_KS_PASS`，或 `packaging/android/keystore/keystore.pass`；两者都没有时首次构建会提示你给一个，生成后自动写入该文件。**换机器重新克隆后记得把 `quiz.jks` 一起带过去**，否则新证书签的包无法覆盖安装
+
+环境要求：JDK 17（`winget install Microsoft.OpenJDK.17`）+ Android SDK（`setup_sdk.py` 会自动拉 platform-tools / platforms;android-34 / build-tools;34.0.0）。
+
+> 构建时会把工程同步到 `%TEMP%\ncre_apk_work` 再跑 —— 因为 **aapt2 读不了含中文的路径**，而本仓库位于「选择题」目录下。
 
 ---
 

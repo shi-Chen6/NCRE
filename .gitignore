@@ -13,6 +13,8 @@ image-gen/output/
 # exe 打包产物与中间目录（scripts/build_exe.py 产出）
 /build/
 /dist/
+# APK 构建产物：页面本体由 build_apk.py 从 web/ 拷进来，不入库
+packaging/android/app/assets/quiz.html
 
 # ---------- 本地工作区 / 调试残留 ----------
 .workbuddy/
@@ -24,8 +26,10 @@ image-gen/_selftest_trash/
 image-gen/_dev_trash/
 *.bak
 
-# ---------- 本地配置（含 API Key，绝不入库） ----------
+# ---------- 本地配置（含 API Key / 签名口令，绝不入库） ----------
 image-gen/config/settings.json
+# 安卓签名私钥与口令：公开仓库里放私钥等于把包名送人
+packaging/android/keystore/
 
 # ---------- 编辑器 / 系统 ----------
 .vscode/
