@@ -199,6 +199,8 @@ def run_selftest():
                 "author_hits": dom.count("陈梓涛"),
                 "images": dom.count("data:image/png;base64"),
                 "title": "全国计算机等级考试选择题高分刷题" in dom,
+                "chapter_entry": 'data-act="chapters"' in dom,
+                "chapter_data": '"chapters"' in dom,
                 "ok": bool(dom),
             })
     except Exception:  # noqa: BLE001

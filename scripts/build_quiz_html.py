@@ -21,6 +21,7 @@ DATA = os.path.join(BASE, "data")
 ANS = os.path.join(BASE, "answers")
 EASY = os.path.join(BASE, "easy")
 IMG_DIR = os.path.join(BASE, "images")
+KNOW = os.path.join(BASE, "knowledge", "chapters.json")
 TPL = os.path.join(BASE, "web", "quiz_template.html")
 DST = os.path.join(BASE, "web", "24套选择题刷题系统.html")
 
@@ -132,6 +133,7 @@ def build_payload():
                 stat["img_bytes"] += len(img_uri) * 3 // 4
             items.append({
                 "no": no,
+                "set": i,
                 "stem": html.escape(q["stem"]),
                 "options": {k: html.escape(v) for k, v in q["options"].items()},
                 "answer": ai.get("answer", ""),
@@ -144,8 +146,48 @@ def build_payload():
     return {"sets": sets_out}, stat
 
 
+def build_chapter_payload(sets_out):
+    """把 knowledge/chapters.json 的归属整理成前端要的结构。
+
+    只输出「章 -> [(套号, 题号), ...]」这样的引用，不重复题目正文，
+    否则题干、解析尤其是 base64 配图会翻倍，页面会从 47MB 涨到 90MB+。
+    """
+    if not os.path.exists(KNOW):
+        raise SystemExit("缺少 %s，请先运行 scripts/build_chapters.py" % KNOW)
+    with open(KNOW, encoding="utf-8") as f:
+        k = json.load(f)
+
+    assign = k["assign"]
+    total = sum(len(s["items"]) for s in sets_out)
+    if len(assign) != total:
+        raise SystemExit("章节归属条数 %d 与题库题量 %d 不一致" % (len(assign), total))
+
+    out = []
+    for c in k["chapters"]:
+        pairs, sets_hit = [], set()
+        for s in sets_out:                      # 外层套、内层题号 → 天然按「第几套第几题」升序
+            for it in s["items"]:
+                key = "%d-%d" % (s["set"], it["no"])
+                if assign.get(key) == c["id"]:
+                    pairs.append([s["set"], it["no"]])
+                    sets_hit.add(s["set"])
+        out.append({"id": c["id"], "name": c["name"], "desc": c["desc"],
+                    "sets": len(sets_hit), "items": pairs})
+
+    flat = [tuple(p) for c in out for p in c["items"]]
+    if len(flat) != len(set(flat)):
+        raise SystemExit("有题目被归入多个章节")
+    if len(flat) != total:
+        raise SystemExit("有 %d 道题没有归入任何章节" % (total - len(flat)))
+    for c in out:
+        if not c["items"]:
+            raise SystemExit("章节「%s」没有任何题目" % c["name"])
+    return out
+
+
 def main():
     payload, stat = build_payload()
+    payload["chapters"] = build_chapter_payload(payload["sets"])
     data_json = json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
 
     with open(TPL, encoding="utf-8") as f:
@@ -172,6 +214,10 @@ def main():
           % (len(payload["sets"]), stat["total"], stat["highlighted"], stat["easy"],
              stat["images"], stat["img_bytes"] / 1024 / 1024,
              ("已内嵌 %.1f KB" % (len(a_uri) / 1024.0)) if a_uri else "无", size))
+    chs = payload["chapters"]
+    print("知识点章节: %d 章 / %d 题 | %s"
+          % (len(chs), sum(len(c["items"]) for c in chs),
+             "·".join("%02d %s %d" % (c["id"], c["name"], len(c["items"])) for c in chs)))
 
 
 if __name__ == "__main__":

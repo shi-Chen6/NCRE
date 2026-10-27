@@ -58,6 +58,11 @@ button.sm{padding:6px 12px;font-size:13px;}
 .summary{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 20px;}
 .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--sub);box-shadow:var(--shadow);}
 .chip b{color:var(--brand);}
+.chipbtn{
+  background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  font-size:13px;line-height:1.4;color:var(--brand);font-weight:600;box-shadow:var(--shadow);
+}
+.chipbtn:hover{background:var(--brand-soft);border-color:var(--brand-line);}
 
 .setgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;}
 .setcard{
@@ -76,6 +81,65 @@ button.sm{padding:6px 12px;font-size:13px;}
 .setcard .dots i{width:6px;height:6px;border-radius:50%;background:#dfe5ee;display:block;}
 .setcard .dots i.ok{background:var(--ok);}
 .setcard .dots i.bad{background:var(--bad);}
+/* 套卡底部「直刷 20 题」入口：独立于闯关，点了直接开做 */
+.setcard .drillbtn{
+  display:block;margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);
+  font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.2px;
+}
+.setcard .drillbtn:hover{color:#1f4a86;}
+.setcard .drillscore{color:var(--brand);}
+
+/* ---------- 知识点章节：首页入口条 ---------- */
+.chbanner{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:linear-gradient(120deg,#fff 0%,#f2f7ff 62%,#eef4fd 100%);
+  border:1px solid var(--brand-line);border-radius:var(--radius);
+  padding:14px 18px;margin:0 0 20px;box-shadow:var(--shadow);
+}
+.chbanner:hover{border-color:var(--brand);background:linear-gradient(120deg,#fff 0%,#e9f1fd 62%,#e4eefc 100%);}
+.chbanner .cbi{
+  flex:0 0 auto;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:var(--brand);color:#fff;font-size:19px;font-weight:800;letter-spacing:.5px;
+}
+.chbanner .cbt{flex:1;min-width:0;display:block;}
+.chbanner .cbt b{display:block;font-size:15.5px;color:var(--brand);letter-spacing:.3px;}
+.chbanner .cbt span{display:block;font-size:12.5px;color:var(--sub);margin-top:1px;}
+.chbanner .cbgo{flex:0 0 auto;font-size:13px;font-weight:700;color:var(--brand);white-space:nowrap;}
+
+/* ---------- 知识点章节：章节列表 ---------- */
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.chcard{
+  display:flex;gap:13px;align-items:flex-start;text-align:left;width:100%;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;box-shadow:var(--shadow);transition:.15s;position:relative;
+}
+.chcard:hover{transform:translateY(-2px);border-color:var(--brand-line);}
+.chcard.is-done{background:linear-gradient(180deg,#fff 0%,#f3fbf6 100%);border-color:var(--ok-line);}
+.chcard .cno{
+  flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:var(--brand-soft);color:var(--brand);border:1px solid var(--brand-line);
+  font-size:14px;font-weight:800;letter-spacing:.5px;
+}
+.chcard.is-done .cno{background:var(--ok-soft);color:var(--ok);border-color:var(--ok-line);}
+.chcard .cbody{flex:1;min-width:0;}
+.chcard .cname{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.4;}
+.chcard .cdesc{font-size:12px;color:var(--sub);margin-top:3px;line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.chcard .cmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;font-size:11.5px;color:var(--sub);}
+.chcard .cmeta em{font-style:normal;background:#f2f5f9;border-radius:6px;padding:1px 7px;}
+.chcard .cmeta em.best{background:var(--ok-soft);color:var(--ok);font-weight:700;}
+.chcard .ctick{position:absolute;top:10px;right:12px;font-size:14px;color:var(--ok);}
+
+/* 章节刷题：题卡左上角的来源角标（第几套第几题） */
+.qsrc{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:700;color:#8a6d1f;letter-spacing:.2px;
+  background:var(--gold-soft);border:1px solid #eadfb8;border-radius:8px;padding:3px 9px;
+  white-space:nowrap;
+}
+.chhead{margin:16px 0 0;}
+.chhead h2{margin:0 0 4px;font-size:20px;color:var(--ink);letter-spacing:.3px;}
+.chhead p{margin:0;color:var(--sub);font-size:13px;}
 
 /* ---------- 进度 ---------- */
 .progwrap{margin:14px 0 18px;}
@@ -286,6 +350,49 @@ body.lay-single .topbar .inner{max-width:1000px;}
   .setgrid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));}
   .certbox input[type=text]{width:100%;}
 }
+
+/* ---------- 手机端做减法：只留做题与解析，次要信息一律让位 ---------- */
+.bmini{display:none;}
+@media (max-width:620px){
+  .topbar .inner{padding:8px 12px;gap:8px;}
+  .brand{font-size:14.5px;}
+  .brand small{display:none;}
+  .bfull{display:none;}
+  .bmini{display:inline;}
+  .meta{display:none;}
+
+  /* 首页：顶栏已有名字，标题块整块收起，直接从进度与套卡开始 */
+  .home-hero{display:none;}
+  .summary{margin:11px 0 14px;gap:8px;}
+  .hide-phone{display:none !important;}
+
+  /* 章节入口只留一行，副标题去掉 */
+  .chbanner{padding:11px 13px;gap:10px;margin-bottom:14px;}
+  .chbanner .cbi{width:34px;height:34px;border-radius:10px;font-size:16px;}
+  .chbanner .cbt b{font-size:14px;}
+  .chbanner .cbt span{display:none;}
+
+  /* 套卡：只留套号、状态与两个入口，星级/成绩这类统计不上手机 */
+  .setgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+  .setcard{padding:12px 11px;}
+  .setcard .no{font-size:15px;}
+  .setcard .score,.setcard .drillscore{display:none;}
+  .setcard .drillbtn{margin-top:7px;padding-top:6px;}
+
+  /* 答题页：快捷键提示无意义，卡片与选项收紧 */
+  .qcard{padding:14px 14px 16px;}
+  .qhead{gap:7px;margin-bottom:8px;}
+  .stem{font-size:16px;margin-bottom:12px;}
+  .opt{padding:10px 12px;min-height:44px;font-size:15px;}
+  .kbnote{display:none;}
+  .btnrow{gap:8px;}
+  .btnrow button{padding:9px 13px;}
+
+  /* 章节页标题区收紧：说明性标签在手机上收起 */
+  .chhead h2{font-size:17px;}
+  .chhead p{font-size:12px;}
+  .chhead .tag.gray{display:none;}
+}
 @media print{
   body{background:#fff;}
   .topbar,.no-print{display:none !important;}
@@ -332,13 +439,116 @@ body.lay-single .topbar .inner{max-width:1000px;}
   .authorbadge{right:12px;bottom:12px;padding:4px 10px 4px 5px;font-size:12px;}
   .authorbadge img{width:22px;height:22px;}
 }
+
+/* ---------- 首次打开：动画分步引导 ---------- */
+.onboard{position:fixed;inset:0;z-index:200;display:none;}
+.onboard.on{display:block;}
+.ob-mask{position:absolute;inset:0;background:rgba(17,26,38,.74);animation:obFade .3s ease both;}
+.ob-stage{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:0 16px 5vh;}
+.ob-card{
+  width:min(580px,100%);background:#fff;border-radius:18px;overflow:hidden;
+  box-shadow:0 26px 64px rgba(0,0,0,.30);
+  animation:obIn .46s cubic-bezier(.2,.9,.25,1) both;
+  display:flex;flex-direction:column;
+  max-height:calc(100vh - 12vh);   /* 小屏/矮窗口内容再长也不顶出视口 */
+}
+.ob-top{padding:20px 24px 0;flex:0 0 auto;}
+.ob-kicker{font-size:11.5px;font-weight:700;letter-spacing:2.2px;color:var(--brand);}
+.ob-card h2{margin:7px 0 6px;font-size:21px;line-height:1.45;}
+.ob-lead{margin:0;color:var(--sub);font-size:14px;line-height:1.75;}
+.ob-body{padding:15px 24px 2px;min-height:118px;flex:1 1 auto;overflow:auto;}
+.ob-art{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.ob-foot{display:flex;align-items:center;gap:8px;padding:13px 18px 16px;border-top:1px solid var(--line);margin-top:14px;background:#fcfdff;flex:0 0 auto;}
+.ob-dots{display:flex;gap:6px;align-items:center;}
+.ob-dots i{width:7px;height:7px;border-radius:50%;background:#dfe5ee;display:block;transition:.2s;}
+.ob-dots i.on{background:var(--brand);width:18px;border-radius:4px;}
+.ob-rise{animation:obRise .46s ease both;}
+/* 插画零件 */
+.ob-art .qline{height:9px;border-radius:6px;background:#e2e8f1;margin-bottom:11px;}
+.ob-art .o{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 11px;margin-bottom:7px;}
+.ob-art .o:last-child{margin-bottom:0;}
+.ob-art .o b{font-size:11.5px;color:var(--brand);font-weight:800;min-width:12px;}
+.ob-art .o .bar{height:7px;border-radius:5px;background:#e9eef6;flex:1;}
+.ob-art .o.ok{border-color:var(--ok-line);background:var(--ok-soft);}
+.ob-art .o.ok b{color:var(--ok);}
+.ob-art .o.ok .bar{background:#c9e8d6;}
+.ob-art .o .tick{color:var(--ok);font-size:12px;font-weight:800;}
+.ob-mrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ob-mcard{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 10px 11px;text-align:center;}
+.ob-mcard.gold{border-color:#ecd9a9;background:#fffdf6;}
+.ob-mcard .nm{font-size:13.5px;font-weight:800;color:var(--brand);}
+.ob-mcard.gold .nm{color:#a8821f;}
+.ob-mcard .sub{font-size:11.5px;color:var(--sub);margin-top:5px;line-height:1.6;}
+.ob-mcard .mini{display:flex;justify-content:center;gap:3px;margin-bottom:8px;}
+.ob-mcard .mini i{width:8px;height:8px;border-radius:50%;background:#e0e6ef;display:block;}
+.ob-mcard .mini i.on{background:var(--brand);}
+.ob-mcard.gold .mini i.on{background:var(--gold);}
+.ob-mcard .mini i.sq{border-radius:2px;}
+.ob-lv{display:flex;align-items:center;gap:6px;justify-content:center;}
+.ob-lv .nd{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:#fff;color:#b3bcc9;
+  display:grid;place-items:center;font-size:11.5px;font-weight:800;flex:0 0 auto;}
+.ob-lv .nd.on{background:var(--brand);border-color:var(--brand);color:#fff;}
+.ob-lv .nd.boss{border-radius:8px;}
+.ob-lv .nd.boss.on{background:var(--gold);border-color:var(--gold);}
+.ob-lv .ln{width:12px;height:2px;background:#c9d6e8;flex:1 0 auto;}
+.ob-lv .ln.on{background:var(--brand);}
+.ob-cap{font-size:11.5px;color:var(--sub);text-align:center;margin-top:10px;}
+/* 引导第 5 步：知识点章节示意 */
+.ob-ch{display:grid;gap:6px;}
+.ob-ch .r{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+  border-radius:9px;padding:7px 10px;font-size:12px;color:#39485c;}
+.ob-ch .r b{flex:0 0 auto;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;
+  background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:800;}
+.ob-ch .r span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ob-ch .r em{flex:0 0 auto;font-style:normal;font-size:11px;color:var(--sub);background:#f2f5f9;
+  border-radius:6px;padding:1px 6px;}
+.ob-ch .r.on{border-color:var(--brand-line);background:var(--brand-soft);}
+.ob-ch .r.on b{background:var(--brand);color:#fff;}
+.ob-src{margin:10px auto 0;width:fit-content;font-size:11.5px;font-weight:700;color:#8a6d1f;
+  background:var(--gold-soft);border:1px solid #eadfb8;border-radius:8px;padding:3px 10px;}
+.ob-dots20{display:flex;gap:4px;justify-content:center;flex-wrap:nowrap;}
+.ob-dots20 i{flex:1 1 0;min-width:6px;height:13px;border-radius:3px;background:#e0e6ef;display:block;}
+.ob-dots20 i.on{background:var(--ok);}
+.ob-tiplist{display:grid;gap:8px;}
+.ob-tiplist .row{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:12.5px;color:#39485c;}
+.ob-tiplist .row b{color:var(--brand);font-weight:700;}
+.ob-tiplist .kbd{display:inline-flex;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;
+  padding:0 6px;font-size:11px;color:var(--sub);background:#fbfcfe;line-height:17px;}
+.ob-cert{position:relative;height:74px;display:grid;place-items:center;}
+.ob-cert .sheet{width:150px;height:64px;background:#fff;border:1px solid #ecd9a9;border-radius:8px;
+  display:grid;place-items:center;box-shadow:0 6px 18px rgba(184,145,47,.18);}
+.ob-cert .sheet span{font-size:11.5px;color:#a8821f;font-weight:700;letter-spacing:2px;}
+.ob-cert .st{position:absolute;font-size:17px;color:var(--gold);}
+/* 顶栏高亮（讲「单列 / 两栏」时把顶栏抬到遮罩之上） */
+body.ob-hi .topbar{z-index:210;box-shadow:0 14px 34px rgba(0,0,0,.22);}
+body.ob-hi .layseg{animation:obGlow 1.8s ease-in-out infinite;}
+body.ob-hi .layseg button.on{background:var(--brand);color:#fff;}
+@keyframes obFade{from{opacity:0}to{opacity:1}}
+@keyframes obIn{from{opacity:0;transform:translateY(26px) scale(.975)}to{opacity:1;transform:none}}
+@keyframes obRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes obPop{0%{opacity:0;transform:scale(.55)}70%{transform:scale(1.1)}100%{opacity:1;transform:scale(1)}}
+@keyframes obGlow{0%,100%{box-shadow:0 0 0 0 rgba(47,93,158,.5)}55%{box-shadow:0 0 0 8px rgba(47,93,158,0)}}
+@media (max-width:620px){
+  .ob-stage{padding:0 10px 2vh;}
+  .ob-top{padding:16px 16px 0;}
+  .ob-card h2{font-size:18.5px;}
+  .ob-lead{font-size:13px;}
+  .ob-body{padding:12px 16px 0;min-height:96px;}
+  .ob-art{padding:11px 12px;}
+  .ob-foot{padding:11px 12px 13px;}
+  .ob-mrow{gap:8px;}
+  .ob-dots20 i{width:9px;height:9px;}
+}
+@media (prefers-reduced-motion: reduce){
+  .onboard *, .onboard *::before{animation:none !important;}
+}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="inner">
-    <div class="brand">全国计算机等级考试选择题高分刷题<small>24 套 · 每套 20 题</small></div>
+    <div class="brand"><span class="bfull">全国计算机等级考试选择题高分刷题</span><span class="bmini">选择题刷题</span><small>24 套 · 每套 20 题</small></div>
     <div class="spacer"></div>
     <div class="meta" id="topMeta"></div>
     <div class="layseg" id="laySeg" role="group" aria-label="页面排版">
@@ -370,10 +580,32 @@ body.lay-single .topbar .inner{max-width:1000px;}
   </div>
 </div>
 
-<!-- 版权署名：常驻右下角 -->
-<div class="authorbadge no-print" title="版权所有 ©陈梓涛">
+<!-- 版权署名：只在首页常驻右下角，进入答题界面即隐藏 -->
+<div class="authorbadge no-print" id="authorBadge" title="版权所有 ©陈梓涛">
   <img src="__AUTHOR_IMG__" alt="陈梓涛" />
   <span>©<b>陈梓涛</b></span>
+</div>
+
+<!-- 首次打开：动画分步引导（只放一次，首页可随时重看） -->
+<div class="onboard no-print" id="onboard" role="dialog" aria-modal="true" aria-label="新手引导">
+  <div class="ob-mask"></div>
+  <div class="ob-stage">
+    <div class="ob-card" id="obCard">
+      <div class="ob-top">
+        <div class="ob-kicker" id="obKicker">全国计算机等级考试</div>
+        <h2 id="obTitle">选择题高分刷题</h2>
+        <p class="ob-lead" id="obLead"></p>
+      </div>
+      <div class="ob-body" id="obBody"></div>
+      <div class="ob-foot">
+        <div class="ob-dots" id="obDots"></div>
+        <span class="spacer" style="flex:1"></span>
+        <button class="ghost sm" data-od="skip" id="obSkip">跳过</button>
+        <button class="sm" data-od="prev" id="obPrev">上一步</button>
+        <button class="primary sm" data-od="next" id="obNext">下一步</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script id="quiz-data" type="application/json">__DATA_JSON__</script>
@@ -387,6 +619,23 @@ var DATA = JSON.parse(document.getElementById("quiz-data").textContent);
 var SETS = DATA.sets;
 var GROUP_SIZE = 5;
 var LS_KEY = "quiz_progress_v2";
+
+/* 知识点章节：只存「章 → [(套号, 题号)]」引用，题目对象在这里现挂，
+   避免题干、解析、base64 配图在页面里存两份。 */
+var CH = DATA.chapters || [];
+var ITEM_BY_KEY = {};
+SETS.forEach(function(s){
+  s.items.forEach(function(q){ ITEM_BY_KEY[s.set + "-" + q.no] = q; });
+});
+CH.forEach(function(c){
+  var arr = [];
+  (c.items || []).forEach(function(p){
+    var q = ITEM_BY_KEY[p[0] + "-" + p[1]];
+    if (q) arr.push(q);            // 按「套号升序、套内题号升序」排好，同一题在多套出现都保留
+  });
+  c.objs = arr;
+  c.total = arr.length;
+});
 
 /* ==================== 进度存储 ==================== */
 function loadProgress(){
@@ -487,14 +736,235 @@ function maybeShowLayoutTip(){
   if (layoutTipDone()) return;
   try{ if (localStorage.getItem(LS_LAYOUT) != null) return; }catch(e){ return; }
   if (typeof window === "undefined" || window.innerWidth <= 1080) return;
-  setTimeout(showLayoutTip, 500);
+  // 延迟到 500ms 再看一眼：此时动画引导（280ms 出）可能已经盖在页面上，就不弹了
+  setTimeout(function(){
+    if (onboardOn()) return;
+    showLayoutTip();
+  }, 500);
+}
+/* 离开首页就收起引导，但不写「已看过」标记 ——
+   引导是给首页看的，别让它压在题目上；下次进首页还能再见一次。 */
+function hideLayoutTipSoft(){
+  var tip = document.getElementById("layoutTip");
+  if (!tip || !tip.classList || !tip.classList.contains("on")) return;
+  tip.classList.remove("show");
+  tip.classList.remove("on");
+}
+
+/* ==================== 首次打开：动画分步引导 ====================
+   第一次打开自动播放一遍（带遮罩的分步动画）；看完或点「跳过」才写标记。
+   引导里已经把两种模式和排版讲清楚了，所以收尾时顺手把旧的排版气泡也标记为看过，
+   避免两层提示叠在一起。首页保留「玩法引导」入口，随时可以重看。 */
+var LS_ONBOARD = "quiz_onboard_v1";
+var obStep = 0;
+var OB_STEPS = [
+  {
+    kicker: "全国计算机等级考试",
+    title: "选择题高分刷题",
+    lead: "24 套 · 每套 20 题，共 480 道单选题。三种练法，点一下就能开做，进度自动存在本机。",
+    art: "welcome"
+  },
+  {
+    kicker: "按套刷的两种练法",
+    title: "系统过一遍，还是先快速过题？",
+    lead: "想按节奏推进、拿通关证书，走「闯关模式」；只想一气把一套做掉、边做边看解析，走「直刷模式」。",
+    art: "modes"
+  },
+  {
+    kicker: "模式一 · 闯关",
+    title: "分关推进，错题不放过",
+    lead: "每 5 题一关，先读答案与解析再作答；首轮错题自动进「错题订正关」，最后是「整套重刷关」，通关发证书。",
+    art: "levels"
+  },
+  {
+    kicker: "模式二 · 直刷",
+    title: "一口气做完 20 题",
+    lead: "点套卡底部的「直刷 20 题」，不分关、不预览，答完一题立刻出对错与解析，交卷给成绩单和错题回顾。",
+    art: "drill"
+  },
+  {
+    kicker: "模式三 · 知识点",
+    title: "同一个知识点，一次刷透",
+    lead: "480 道题按 13 个知识点重新编排，一个知识点一章。题目不去重 —— 同一道题出现在几套里就保留几份，题卡左上角标着它来自第几套第几题。",
+    art: "chapter"
+  },
+  {
+    kicker: "界面速览",
+    title: "几个顺手的小设置",
+    lead: "顶栏右侧能切换单列 / 两栏（现在高亮的就是它），答题进度自动续做，键盘也能操作。",
+    art: "tips",
+    hi: true
+  },
+  {
+    kicker: "准备就绪",
+    title: "可以开始了",
+    lead: "点套卡进闯关、点卡底「直刷 20 题」直接开做，或点首页「按知识点刷题」专攻一个考点。以后想重看这段引导，点首页的「玩法引导」。",
+    art: "start"
+  }
+];
+
+function obArt(a){
+  var h = "", i;
+  if (a === "welcome"){
+    h = '<div class="ob-art"><div class="qline ob-rise" style="animation-delay:.05s;width:66%"></div>';
+    for (i = 0; i < 4; i++){
+      var ok = (i === 1);
+      h += '<div class="o' + (ok ? " ok" : "") + ' ob-rise" style="animation-delay:' + (0.16 + i * 0.11).toFixed(2) + 's">'
+        + '<b>' + ["A","B","C","D"][i] + '</b><span class="bar"></span>'
+        + (ok ? '<span class="tick">✓</span>' : '') + '</div>';
+    }
+    h += '<div class="ob-cap ob-rise" style="animation-delay:.74s">选完立刻出对错、逐项解析和配图</div></div>';
+    return h;
+  }
+  if (a === "modes"){
+    h = '<div class="ob-art"><div class="ob-mrow">'
+      + '<div class="ob-mcard ob-rise" style="animation-delay:.05s">'
+      + '<div class="mini"><i class="on"></i><i class="on"></i><i></i><i></i></div>'
+      + '<div class="nm">闯关模式</div><div class="sub">5 题一关 · 星级 · 通关证书</div></div>'
+      + '<div class="ob-mcard gold ob-rise" style="animation-delay:.19s">'
+      + '<div class="mini"><i class="sq on"></i><i class="sq on"></i><i class="sq on"></i><i class="sq"></i></div>'
+      + '<div class="nm">直刷模式</div><div class="sub">一气做 20 题 · 答完即看解析</div></div>'
+      + '</div><div class="ob-cap ob-rise" style="animation-delay:.38s">点套卡主体进闯关，点卡底「直刷 20 题」直接开做</div></div>';
+    return h;
+  }
+  if (a === "chapter"){
+    h = '<div class="ob-art"><div class="ob-ch">'
+      + '<div class="r ob-rise" style="animation-delay:.05s"><b>01</b><span>计算机发展与信息表示</span><em>53 题</em></div>'
+      + '<div class="r on ob-rise" style="animation-delay:.18s"><b>04</b><span>存储器与容量计算</span><em>60 题</em></div>'
+      + '<div class="r ob-rise" style="animation-delay:.31s"><b>09</b><span>多媒体技术</span><em>19 题</em></div>'
+      + '</div>'
+      + '<div class="ob-src ob-rise" style="animation-delay:.44s">第 12 套 · 第 7 题</div>'
+      + '<div class="ob-cap ob-rise" style="animation-delay:.56s">题卡左上角标着来源，同一题在多套出现就出现多次</div></div>';
+    return h;
+  }
+  if (a === "levels"){
+    h = '<div class="ob-art"><div class="ob-lv">';
+    for (i = 0; i < 6; i++){
+      var boss = i >= 4;
+      h += '<div class="nd on' + (boss ? " boss" : "") + '" style="animation:obPop .42s ease both '
+        + (0.05 + i * 0.13).toFixed(2) + 's">' + (i + 1) + '</div>';
+      if (i < 5) h += '<span class="ln" style="animation:obRise .3s ease both ' + (0.14 + i * 0.13).toFixed(2) + 's"></span>';
+    }
+    h += '</div><div class="ob-cap ob-rise" style="animation-delay:.92s">4 个闯关 + 错题订正关 + 整套重刷关</div></div>';
+    return h;
+  }
+  if (a === "drill"){
+    h = '<div class="ob-art"><div class="ob-dots20">';
+    for (i = 0; i < 20; i++){
+      h += '<i class="on" style="animation:obPop .3s ease both ' + (0.04 + i * 0.045).toFixed(2) + 's"></i>';
+    }
+    h += '</div><div class="ob-cap ob-rise" style="animation-delay:1.02s">第 1 题 → 第 20 题，一路做到底</div></div>';
+    return h;
+  }
+  if (a === "tips"){
+    h = '<div class="ob-art"><div class="ob-tiplist">'
+      + '<div class="row ob-rise" style="animation-delay:.05s"><b>单列 / 两栏</b><span>顶栏右侧切排版：配图放在解析下方，或常驻在右侧</span></div>'
+      + '<div class="row ob-rise" style="animation-delay:.18s"><b>自动续做</b><span>答题进度存在本机，关掉再打开接着做</span></div>'
+      + '<div class="row ob-rise" style="animation-delay:.31s"><b>键盘操作</b><span><span class="kbd">←</span> <span class="kbd">→</span> 切题 · <span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span> 选答案</span></div>'
+      + '</div></div>';
+    return h;
+  }
+  if (a === "start"){
+    return '<div class="ob-art"><div class="ob-cert">'
+      + '<div class="sheet" style="animation:obPop .52s ease both .05s"><span>★ 通关证书 ★</span></div>'
+      + '</div><div class="ob-cap ob-rise" style="animation-delay:.42s">闯关通关可领证书；直刷只出成绩单</div></div>';
+  }
+  return "";
+}
+
+function obRender(){
+  var st = OB_STEPS[obStep];
+  var k = document.getElementById("obKicker");
+  var t = document.getElementById("obTitle");
+  var l = document.getElementById("obLead");
+  var b = document.getElementById("obBody");
+  var d = document.getElementById("obDots");
+  var nx = document.getElementById("obNext");
+  var pv = document.getElementById("obPrev");
+  var sk = document.getElementById("obSkip");
+  if (k) k.textContent = st.kicker;
+  if (t) t.textContent = st.title;
+  if (l) l.textContent = st.lead;
+  if (b) b.innerHTML = obArt(st.art);
+  if (d){
+    var dh = "", i;
+    for (i = 0; i < OB_STEPS.length; i++) dh += '<i class="' + (i === obStep ? "on" : "") + '"></i>';
+    d.innerHTML = dh;
+  }
+  if (nx) nx.textContent = (obStep === OB_STEPS.length - 1) ? "开始刷题" : "下一步";
+  if (pv) pv.disabled = (obStep === 0);
+  if (sk){
+    if (obStep === OB_STEPS.length - 1) sk.classList.add("hidden");
+    else sk.classList.remove("hidden");
+  }
+  if (document.body && document.body.classList){
+    if (st.hi) document.body.classList.add("ob-hi");
+    else document.body.classList.remove("ob-hi");
+  }
+}
+
+function onboardDone(){
+  try{ return localStorage.getItem(LS_ONBOARD) === "1"; }catch(e){ return true; }
+}
+function onboardOn(){
+  var el = document.getElementById("onboard");
+  return !!(el && el.classList && el.classList.contains("on"));
+}
+function onboardStep(){ return obStep; }
+function onboardTotal(){ return OB_STEPS.length; }
+
+function showOnboard(){
+  var el = document.getElementById("onboard");
+  if (!el || !el.classList) return;
+  obStep = 0;
+  obRender();
+  el.classList.add("on");
+  hideLayoutTipSoft();   // 遮罩期间不让排版气泡透上来抢镜
+}
+
+function closeOnboard(){
+  var el = document.getElementById("onboard");
+  if (el && el.classList) el.classList.remove("on");
+  if (document.body && document.body.classList) document.body.classList.remove("ob-hi");
+  try{ localStorage.setItem(LS_ONBOARD, "1"); }catch(e){}
+  // 引导里已讲过排版，顺手收掉旧气泡并标记，避免两层提示叠在一起
+  closeLayoutTip();
+  markLayoutTipDone();
+}
+
+function onboardNext(){
+  if (!onboardOn()) return;
+  if (obStep >= OB_STEPS.length - 1){ closeOnboard(); return; }
+  obStep++;
+  obRender();
+}
+function onboardPrev(){
+  if (!onboardOn() || obStep <= 0) return;
+  obStep--;
+  obRender();
+}
+function handleObAct(act){
+  if (act === "next") onboardNext();
+  else if (act === "prev") onboardPrev();
+  else if (act === "skip") closeOnboard();
+}
+/* 手机端（窄屏）：界面走精简版（见 CSS 的 620px 段），也不做 7 步分步引导，
+   打开就是主界面，少一层打扰。 */
+function isPhoneWidth(){
+  return !!(typeof window !== "undefined" && window.innerWidth && window.innerWidth <= 620);
+}
+
+function maybeShowOnboard(){
+  if (onboardDone()) return;
+  if (isPhoneWidth()) return;          // 手机上不放分步引导
+  setTimeout(function(){ showOnboard(); }, 280);
 }
 
 /* ==================== 会话状态 ==================== */
 var S = {
-  view: "home",        // home | quiz | done
+  view: "home",        // home | quiz | done | drill（直刷）| drill-done（直刷成绩）| chapters | chapter | chapter-done
   setIdx: null,        // 当前套下标 0..23
-  stage: "study",      // study | retry | full | done
+  stage: "study",      // study | retry | full | done | drill | chapter | chapter-done
   group: 0,            // study 阶段组号 0..3
   mode: "preview",     // study 阶段：preview | answer
   cur: 0,              // 当前题在 list 中的下标
@@ -507,6 +977,9 @@ var S = {
   retryResults: {},    // 重刷作答记录
   retryTries: {},      // 订正关：每题尝试次数（用于算「一次答对」）
   fullResults: {},     // 整套重刷作答记录
+  drillResults: {},    // 直刷模式作答记录（itemIdx -> 选项）
+  drillStart: 0,       // 直刷开始时间戳
+  drillEnd: 0,         // 直刷交卷时间戳
   shell: "play",       // 关卡外壳：play（正常答题）| intro（开场）| halftime（Boss 中场）| result（结算）
   levelStart: 0,       // 本关开始时间戳
   streak: 0,           // 当前连对
@@ -516,6 +989,10 @@ var S = {
   levelStat: {},       // 关卡下标 -> {right,total,secs,streak}
   name: "",
   certStyle: "simple",
+  chapterIdx: null,    // 当前知识点章节下标 0..12
+  chapterResults: {},  // 章节刷题作答记录（章内下标 -> 选项）
+  chapterStart: 0,     // 章节刷题开始时间戳
+  chapterEnd: 0,       // 章节刷题交卷时间戳
   layout: loadLayout()   // 页面排版：single（默认，配图排在解析下方）| split（配图常驻解析右侧）
 };
 
@@ -615,10 +1092,17 @@ function levelComment(n, st, kind){
 }
 
 function setObj(){ return SETS[S.setIdx]; }
-function itemArr(){ return SETS[S.setIdx].items; }
+function chObj(){ return CH[S.chapterIdx] || null; }
+function chItems(){ var c = chObj(); return c ? c.objs : []; }
+function itemArr(){
+  if (S.stage === "chapter") return chItems();   // 章节刷题：题目列表就是本章的题
+  return SETS[S.setIdx].items;
+}
 function resBox(){
   if (S.stage === "study") return S.results;
   if (S.stage === "retry") return S.retryResults;
+  if (S.stage === "drill") return S.drillResults;
+  if (S.stage === "chapter") return S.chapterResults;
   return S.fullResults;
 }
 function idxToGlobal(itemIdx){ return itemIdx + 1; }
@@ -701,7 +1185,7 @@ function levelResultHtml(){
     + (lastLevel ? "查看通关成绩 ›" : "进入" + levelShort(nextK) + " ›")
     + "</button>";
   h += '<button data-act="level-replay">重刷本关</button>';
-  h += '<button data-act="home">返回首页</button>';
+  h += '<button class="hide-phone" data-act="home">返回首页</button>';
   return h + "</div></div>";
 }
 
@@ -763,17 +1247,29 @@ function barHtml(done, total, textLeft, textRight){
 function renderHome(){
   var doneCount = 0, totalQ = 0;
   SETS.forEach(function(s){ totalQ += s.items.length; });
-  var h = '<div class="hero"><h1>全国计算机等级考试选择题高分刷题</h1>'
-    + '<p>共 ' + SETS.length + ' 套 · ' + totalQ + ' 道单选题。每套按 5 题一组，先看答案与解析再作答；每题除普通解析外，另附一段讲给零基础学员的详解。错题自动进入重刷，最后完成整套重刷即可获得证书。</p></div>';
+  var h = '<div class="hero home-hero"><h1>全国计算机等级考试选择题高分刷题</h1>'
+    + '<p>共 ' + SETS.length + ' 套 · ' + totalQ + ' 道单选题。三种练法：<b>闯关模式</b>按 5 题一组，先看答案与解析再作答，错题自动进入重刷，通关可领证书；<b>直刷模式</b>不分关，点开就从第 1 题连续做到第 20 题，答完一题立刻看解析；<b>知识点章节</b>把 ' + totalQ + ' 道题按考点重新编排，一个知识点一章，专攻薄弱环节。</p></div>';
 
   SETS.forEach(function(s){
     if (progress[s.set] && progress[s.set].done) doneCount++;
   });
   h += '<div class="summary">'
     + '<span class="chip">已完成 <b>' + doneCount + '</b> / ' + SETS.length + ' 套</span>'
-    + '<span class="chip">总题量 <b>' + totalQ + '</b> 题</span>'
-    + '<span class="chip">每组 <b>' + GROUP_SIZE + '</b> 题</span>'
+    + '<span class="chip hide-phone">总题量 <b>' + totalQ + '</b> 题</span>'
+    + '<span class="chip hide-phone">每组 <b>' + GROUP_SIZE + '</b> 题</span>'
+    + '<button class="chipbtn hide-phone" data-act="onboard">▶ 玩法引导</button>'
     + '</div>';
+
+  // 知识点章节入口：和 24 张套卡并列的第三条练法
+  if (CH.length){
+    var chTotal = 0;
+    CH.forEach(function(c){ chTotal += c.total; });
+    h += '<button class="chbanner" data-act="chapters">'
+      + '<span class="cbi">章</span>'
+      + '<span class="cbt"><b>按知识点刷题 · ' + CH.length + ' 章 ' + chTotal + ' 题</b>'
+      + '<span>同一知识点的题归到同一章，题目不去重；左上角标着它来自第几套第几题</span></span>'
+      + '<span class="cbgo">进入 ›</span></button>';
+  }
 
   h += '<div class="setgrid">';
   SETS.forEach(function(s, i){
@@ -788,10 +1284,13 @@ function renderHome(){
       ? '<div class="score">首轮 ' + p.firstScore + "/" + s.items.length + ' · 重刷 ' + p.fullScore + "/" + s.items.length + '</div>'
       : '<div class="go">' + (p.partial ? "继续第 " + Math.min(lvDone + 1, lvMax) + " 关 ›" : "开始刷题 ›") + '</div>';
     var starLine = got > 0 ? '<div class="score">已得 ' + got + "/" + (lvMax * 3) + " 星</div>" : "";
+    var drillLine = (p.drillBest && p.drillBest.total)
+      ? '<div class="score drillscore">直刷 ' + p.drillBest.right + "/" + p.drillBest.total + '</div>' : "";
     h += '<button class="' + cls + '" data-act="open" data-set="' + i + '">' + tick
       + '<div class="no">第 ' + s.set + ' 套</div>'
       + '<div class="st">' + st + '</div>'
-      + mainLine + starLine
+      + mainLine + starLine + drillLine
+      + '<span class="drillbtn" data-act="drill" data-set="' + i + '">直刷 20 题 ›</span>'
       + '</button>';
   });
   h += "</div>";
@@ -837,10 +1336,14 @@ function quizItemHtml(itemIdx, opts){
   var revealed = !!picked;
   var h = '<div class="qcard">';
   h += '<div class="qhead">';
-  h += '<span class="qnum">第 ' + (itemIdx + 1) + ' 题</span>';
+  // 章节刷题：左上角标明这道题来自第几套第几题（同一题在多套出现就出现多次）
+  if (S.stage === "chapter") h += '<span class="qsrc">第 ' + q.set + ' 套 · 第 ' + q.no + ' 题</span>';
+  else h += '<span class="qnum">第 ' + (itemIdx + 1) + ' 题</span>';
   if (S.stage === "study") h += '<span class="tag">第 ' + (S.group + 1) + ' 组 · 第 ' + (S.cur + 1) + '/' + S.list.length + ' 题</span>';
   if (S.stage === "retry") h += '<span class="tag gold">错题重刷 · 第 ' + (S.cur + 1) + '/' + S.list.length + ' 题</span>';
   if (S.stage === "full") h += '<span class="tag gold">整套重刷 · 第 ' + (S.cur + 1) + '/' + S.list.length + ' 题</span>';
+  if (S.stage === "drill") h += '<span class="tag gold">直刷 · 第 ' + (S.cur + 1) + '/' + S.list.length + ' 题</span>';
+  if (S.stage === "chapter") h += '<span class="tag gold">本章第 ' + (S.cur + 1) + '/' + S.list.length + ' 题</span>';
   h += '<span class="spacer" style="flex:1"></span>';
   if (revealed) h += '<span class="tag ' + (picked === q.answer ? '' : 'gray') + '">' + (picked === q.answer ? '✓ 答对' : '✕ 答错') + '</span>';
   h += '</div>';
@@ -962,9 +1465,304 @@ function navHtml(){
   var h = '<div class="btnrow" style="margin-top:14px">';
   h += '<button data-act="prev"' + (canPrev() ? '' : ' disabled') + '>‹ 上一题</button>';
   h += '<button class="primary" data-act="next"' + (answered ? '' : ' disabled') + '>' + mainLabel + '</button>';
-  h += '<span class="note" style="margin:0">快捷键：← → 切题，1–4 选项</span>';
+  h += '<span class="note kbnote" style="margin:0">快捷键：← → 切题，1–4 选项</span>';
   h += '</div>';
   return h;
+}
+
+/* ==================== 直刷模式（不闯关，直接连做 20 题） ====================
+   和闯关模式完全独立：不分组、不预览、不看星级，第 1 题直接作答，
+   每题答完立刻出对错与解析，20 题做完给一份成绩单。进度只记「最好一次」。 */
+function drillCount(){ return Object.keys(S.drillResults).length; }
+function drillRight(){
+  var it = itemArr(), n = 0;
+  for (var i = 0; i < it.length; i++){ if (S.drillResults[i] === it[i].answer) n++; }
+  return n;
+}
+function drillSecs(){
+  if (!S.drillStart) return 0;
+  var end = S.drillEnd || nowMs();
+  return Math.max(1, Math.round((end - S.drillStart) / 1000));
+}
+
+function openDrill(i){
+  if (i < 0 || i >= SETS.length) return;
+  S.setIdx = i;
+  S.view = "drill";
+  S.stage = "drill";
+  S.shell = "play";
+  S.group = 0;
+  S.cur = 0;
+  S.list = [];
+  for (var k = 0; k < itemArr().length; k++) S.list.push(k);
+  S.drillResults = {};
+  S.drillStart = nowMs();
+  S.drillEnd = 0;
+  S.streak = 0;
+  S.bestStreak = 0;
+  render();
+}
+
+function drillNavHtml(){
+  var last = S.cur >= S.list.length - 1;
+  var answered = !!S.drillResults[S.list[S.cur]];
+  var h = '<div class="btnrow" style="margin-top:14px">';
+  h += '<button data-act="drill-prev"' + (S.cur > 0 ? '' : ' disabled') + '>‹ 上一题</button>';
+  h += '<button class="primary" data-act="drill-next"' + (answered ? '' : ' disabled') + '>'
+    + (last ? '交卷看成绩 ›' : '下一题 ›') + '</button>';
+  h += '<button class="ghost hide-phone" data-act="home">退出直刷</button>';
+  h += '<span class="note kbnote" style="margin:0">快捷键：← → 切题，1–4 选项</span>';
+  return h + '</div>';
+}
+
+function renderDrill(){
+  var it = itemArr(), done = drillCount();
+  var states = {}, i;
+  for (i = 0; i < it.length; i++){
+    if (S.drillResults[i]) states[i] = (S.drillResults[i] === it[i].answer ? "ok" : "bad");
+  }
+  var h = '<div class="qhead" style="margin-bottom:0">'
+    + '<span class="tag">第 ' + setObj().set + ' 套</span>'
+    + '<span class="tag gold">直刷模式</span>'
+    + '<span class="tag gray">不分组 · 答完一题就出解析</span></div>';
+  h += '<div style="margin-top:12px">' + barHtml(done, it.length,
+      "已答 " + done + "/" + it.length + " 题", "当前答对 " + drillRight() + " 题") + '</div>';
+  h += dotsHtml(0, states, S.cur, it.length);
+  h += quizItemHtml(S.list[S.cur], null);
+  h += drillNavHtml();
+  return h;
+}
+
+function finishDrill(){
+  if (S.view !== "drill") return;
+  S.drillEnd = nowMs();
+  var right = drillRight(), total = itemArr().length, secs = drillSecs();
+  var setNo = setObj().set;
+  var rec = progress[setNo] || {};
+  rec.drill = { right: right, total: total, secs: secs };
+  var best = rec.drillBest;
+  if (!best || right > (best.right || 0)) rec.drillBest = { right: right, total: total, secs: secs };
+  progress[setNo] = rec;
+  saveProgress();
+  S.stage = "drill-done";
+  S.view = "drill-done";
+  render();
+}
+
+function renderDrillDone(){
+  var it = itemArr(), total = it.length, right = drillRight();
+  var secs = drillSecs();
+  var wrongs = [], i;
+  for (i = 0; i < total; i++){ if (S.drillResults[i] !== it[i].answer) wrongs.push(i); }
+  var h = '<div class="done-hero"><div class="big">' + (wrongs.length ? '📘' : '🏆') + '</div>'
+    + '<h2>第 ' + setObj().set + ' 套 · 直刷完成</h2>'
+    + '<p>' + total + ' 题一气做完，' + (wrongs.length
+        ? '错 ' + wrongs.length + ' 题，下面逐题回顾。'
+        : '全对，这一套可以过了。') + '</p></div>';
+
+  h += '<div class="statgrid">'
+    + '<div class="stat ok"><div class="v">' + right + '/' + total + '</div><div class="l">答对 · ' + pct(right, total) + '%</div></div>'
+    + '<div class="stat"><div class="v">' + fmtSecs(secs) + '</div><div class="l">总用时</div></div>'
+    + '<div class="stat ' + (wrongs.length ? 'bad' : '') + '"><div class="v">' + wrongs.length + '</div><div class="l">错题数</div></div>'
+    + '</div>';
+
+  h += '<div class="btnrow" style="margin:16px 0 4px">'
+    + '<button class="primary" data-act="drill-again">再直刷一遍</button>'
+    + '<button data-act="open" data-set="' + S.setIdx + '">去闯关模式 ›</button>'
+    + '<button data-act="home">返回首页</button></div>';
+
+  if (wrongs.length){
+    h += '<div class="review"><h3>错题回顾</h3>';
+    wrongs.forEach(function(idx){
+      h += '<div class="rvitem"><b>第 ' + (idx + 1) + ' 题</b> ' + it[idx].stem
+        + '<div style="margin-top:6px;font-size:14px;color:var(--sub)">你的选择：' + S.drillResults[idx]
+        + '　正确答案：<b style="color:var(--ok)">' + it[idx].answer + '</b></div>'
+        + '<div class="exp" style="margin-top:8px"><span class="lab">解析</span><div class="txt">' + it[idx].analysis + '</div></div>'
+        + easyHtml(it[idx]) + imgHtml(it[idx]) + '</div>';
+    });
+    h += '</div>';
+  } else {
+    h += '<div class="note">20 题全对。想再巩固一遍可以点「再直刷一遍」，或去闯关模式拿通关证书。</div>';
+  }
+  return h;
+}
+
+/* ==================== 知识点章节刷题 ====================
+   第三种练法：不看套，按知识点一章一章地刷。同一知识点的题归到同一章，
+   题目不去重 —— 同一道题出现在几套里就保留几份，靠题卡左上角的
+   「第 X 套 · 第 Y 题」角标区分来源。进度单独记在 progress.chapters，
+   不写 levels、不写 drill，和闯关、直刷互不干扰，也不发证书。 */
+function pad2(n){ return (n < 10 ? "0" : "") + n; }
+function chapterRight(){
+  var res = S.chapterResults, it = chItems(), n = 0;
+  for (var i = 0; i < it.length; i++){ if (res[i] === it[i].answer) n++; }
+  return n;
+}
+function chapterSecs(){
+  if (!S.chapterStart) return 0;
+  var end = S.chapterEnd || nowMs();
+  return Math.max(1, Math.round((end - S.chapterStart) / 1000));
+}
+function chapterProg(id){ return (progress.chapters || {})[id] || {}; }
+
+function openChapters(){ S.view = "chapters"; render(); }
+
+function openChapter(i){
+  if (i < 0 || i >= CH.length) return;
+  S.chapterIdx = i;
+  S.view = "chapter";
+  S.stage = "chapter";
+  S.shell = "play";
+  S.cur = 0;
+  S.list = [];
+  for (var k = 0; k < CH[i].objs.length; k++) S.list.push(k);
+  S.chapterResults = {};
+  S.chapterStart = nowMs();
+  S.chapterEnd = 0;
+  S.streak = 0;
+  S.bestStreak = 0;
+  render();
+}
+
+function renderChapters(){
+  var totalQ = 0, doneCh = 0, rightAll = 0, bestAll = 0;
+  CH.forEach(function(c){
+    totalQ += c.total;
+    var p = chapterProg(c.id);
+    if (p.best){
+      bestAll += p.best.right;
+      if (p.best.right === p.best.total) doneCh++;
+    }
+  });
+  var h = '<div class="hero"><h1>按知识点刷题</h1>'
+    + '<p>' + totalQ + ' 道题按 <b>' + CH.length + '</b> 个知识点重新编排：同一知识点的题归到同一章，不删不并，'
+    + '同一道题出现在几套里就出现几次，题目左上角标着它来自<b>第几套第几题</b>。</p></div>';
+
+  h += '<div class="summary">'
+    + '<span class="chip">共 <b>' + CH.length + '</b> 章</span>'
+    + '<span class="chip hide-phone">总题量 <b>' + totalQ + '</b> 题</span>'
+    + '<span class="chip">已刷完 <b>' + doneCh + '</b> / ' + CH.length + ' 章</span>'
+    + '<button class="chipbtn hide-phone" data-act="home">按套刷题 ›</button>'
+    + '</div>';
+
+  h += '<div class="chgrid">';
+  CH.forEach(function(c, i){
+    var p = chapterProg(c.id), best = p.best;
+    var done = !!best && best.right === best.total;
+    var cls = "chcard" + (done ? " is-done" : "");
+    var meta = '<em>' + c.total + ' 题</em><em>覆盖 ' + c.sets + ' 套</em>';
+    if (best) meta += '<em class="best">最佳 ' + best.right + '/' + best.total + '</em>';
+    h += '<button class="' + cls + '" data-act="chapter" data-ch="' + i + '">'
+      + (done ? '<span class="ctick">✓</span>' : '')
+      + '<span class="cno">' + pad2(c.id) + '</span>'
+      + '<span class="cbody">'
+      + '<span class="cname">' + c.name + '</span>'
+      + '<span class="cdesc">' + c.desc + '</span>'
+      + '<span class="cmeta">' + meta + '</span>'
+      + '</span></button>';
+  });
+  h += '</div>';
+  h += '<div class="btnrow" style="margin-top:18px">'
+    + '<button class="hide-phone" data-act="home">返回首页（按套刷题）</button></div>';
+  return h;
+}
+
+function chapterNavHtml(){
+  var last = S.cur >= S.list.length - 1;
+  var answered = !!S.chapterResults[S.list[S.cur]];
+  var h = '<div class="btnrow" style="margin-top:14px">';
+  h += '<button data-act="ch-prev"' + (S.cur > 0 ? '' : ' disabled') + '>‹ 上一题</button>';
+  h += '<button class="primary" data-act="ch-next"' + (answered ? '' : ' disabled') + '>'
+    + (last ? '交卷看成绩 ›' : '下一题 ›') + '</button>';
+  h += '<button class="ghost" data-act="chapters">换一章</button>';
+  h += '<button class="ghost hide-phone" data-act="home">返回首页</button>';
+  h += '<span class="note kbnote" style="margin:0">快捷键：← → 切题，1–4 选项</span>';
+  return h + '</div>';
+}
+
+function renderChapter(){
+  var c = chObj(), it = chItems();
+  if (!c || !it.length) return '<div class="note">这一章还没有题目。</div>';
+  var done = Object.keys(S.chapterResults).length;
+  var h = '<div class="chhead">'
+    + '<div class="qhead" style="margin-bottom:8px">'
+    + '<span class="tag">知识点 · 第 ' + c.id + ' 章</span>'
+    + '<span class="tag gold">章节刷题</span>'
+    + '<span class="tag gray">答完一题立刻出解析</span></div>'
+    + '<h2>' + c.name + '</h2><p>' + c.desc + '</p></div>';
+  h += '<div style="margin-top:14px">'
+    + barHtml(done, it.length, "已答 " + done + "/" + it.length + " 题", "当前答对 " + chapterRight() + " 题")
+    + '</div>';
+  h += quizItemHtml(S.list[S.cur], null);
+  h += chapterNavHtml();
+  return h;
+}
+
+function finishChapter(){
+  if (S.view !== "chapter") return;
+  var c = chObj();
+  if (!c) return;
+  S.chapterEnd = nowMs();
+  var right = chapterRight(), total = chItems().length, secs = chapterSecs();
+  if (!progress.chapters) progress.chapters = {};
+  var rec = progress.chapters[c.id] || {};
+  rec.last = { right: right, total: total, secs: secs };
+  if (!rec.best || right > rec.best.right) rec.best = { right: right, total: total, secs: secs };
+  progress.chapters[c.id] = rec;
+  saveProgress();
+  S.stage = "chapter-done";
+  S.view = "chapter-done";
+  render();
+}
+
+function renderChapterDone(){
+  var c = chObj(), it = chItems(), total = it.length, right = chapterRight(), secs = chapterSecs();
+  var wrongs = [], i;
+  for (i = 0; i < total; i++){ if (S.chapterResults[i] !== it[i].answer) wrongs.push(i); }
+  var h = '<div class="done-hero"><div class="big">' + (wrongs.length ? '📘' : '🏆') + '</div>'
+    + '<h2>' + c.name + ' · 本章刷完</h2>'
+    + '<p>' + total + ' 题做完，' + (wrongs.length
+        ? '错 ' + wrongs.length + ' 题，下面逐题回顾。'
+        : '全对，这个知识点可以过了。') + '</p></div>';
+
+  h += '<div class="statgrid">'
+    + '<div class="stat ok"><div class="v">' + right + '/' + total + '</div><div class="l">答对 · ' + pct(right, total) + '%</div></div>'
+    + '<div class="stat"><div class="v">' + fmtSecs(secs) + '</div><div class="l">总用时</div></div>'
+    + '<div class="stat ' + (wrongs.length ? 'bad' : '') + '"><div class="v">' + wrongs.length + '</div><div class="l">错题数</div></div>'
+    + '</div>';
+
+  h += '<div class="btnrow" style="margin:16px 0 4px">'
+    + '<button class="primary" data-act="ch-again">再刷本章</button>'
+    + '<button data-act="chapters">换一章 ›</button>'
+    + '<button data-act="home">返回首页</button></div>';
+
+  if (wrongs.length){
+    h += '<div class="review"><h3>错题回顾</h3>';
+    wrongs.forEach(function(idx){
+      var q = it[idx];
+      h += '<div class="rvitem"><b class="qsrc" style="border:0;background:none;padding:0;color:#8a6d1f">'
+        + '第 ' + q.set + ' 套 · 第 ' + q.no + ' 题</b> ' + q.stem
+        + '<div style="margin-top:6px;font-size:14px;color:var(--sub)">你的选择：' + S.chapterResults[idx]
+        + '　正确答案：<b style="color:var(--ok)">' + q.answer + '</b></div>'
+        + '<div class="exp" style="margin-top:8px"><span class="lab">解析</span><div class="txt">' + q.analysis + '</div></div>'
+        + easyHtml(q) + imgHtml(q) + '</div>';
+    });
+    h += '</div>';
+  } else {
+    h += '<div class="note">这一章全对。想再巩固一遍可以点「再刷本章」，或换一章继续。</div>';
+  }
+  return h;
+}
+
+function chNext(){
+  if (S.view !== "chapter") return;
+  if (!S.chapterResults[S.list[S.cur]]) return;
+  if (S.cur < S.list.length - 1){ S.cur++; render(); }
+  else finishChapter();
+}
+function chPrev(){
+  if (S.view !== "chapter" || S.cur <= 0) return;
+  S.cur--; render();
 }
 
 /* ==================== 流程：开始 / 分组 ==================== */
@@ -1234,7 +2032,7 @@ function finishFull(){
 
 /* ==================== 作答 ==================== */
 function pick(key){
-  if (S.view !== "quiz") return;
+  if (S.view !== "quiz" && S.view !== "drill" && S.view !== "chapter") return;
   if (S.stage === "retry" && S.revealRetry) return;
   var itemIdx = S.list[S.cur];
   if (itemIdx === undefined) return;
@@ -1254,6 +2052,12 @@ function pick(key){
 }
 
 function next(){
+  if (S.view === "drill"){
+    if (!S.drillResults[S.list[S.cur]]) return;
+    if (S.cur < S.list.length - 1){ S.cur++; render(); }
+    else finishDrill();
+    return;
+  }
   if (S.view !== "quiz") return;
   if (S.stage === "study"){
     if (S.mode !== "answer") return;
@@ -1269,6 +2073,10 @@ function next(){
 }
 
 function prev(){
+  if (S.view === "drill"){
+    if (S.cur > 0){ S.cur--; render(); }
+    return;
+  }
   if (S.view !== "quiz" || S.stage === "retry") return;
   if (S.cur > 0){ S.cur--; render(); }
 }
@@ -1441,10 +2249,21 @@ function resetSet(){
 function updateTop(){
   var el = document.getElementById("topMeta");
   if (!el) return;
-  if (S.view === "home"){
+  if (S.view === "drill"){
+    el.innerHTML = "第 <b>" + setObj().set + "</b> 套 · 直刷 " + drillCount() + "/" + itemArr().length + " 题";
+  } else if (S.view === "drill-done"){
+    el.innerHTML = "第 <b>" + setObj().set + "</b> 套 · 直刷完成 · 答对 " + drillRight() + "/" + itemArr().length;
+  } else if (S.view === "home"){
     var tq = 0;
     SETS.forEach(function(s){ tq += s.items.length; });
     el.innerHTML = SETS.length + " 套 · " + tq + " 题";
+  } else if (S.view === "chapters"){
+    el.innerHTML = "知识点章节 · <b>" + CH.length + "</b> 章";
+  } else if (S.view === "chapter" || S.view === "chapter-done"){
+    var cc = chObj();
+    var cr = cc ? cc.name : "";
+    if (S.view === "chapter-done") el.innerHTML = cr + " · 已刷完 · 答对 " + chapterRight() + "/" + chItems().length;
+    else el.innerHTML = "知识点章节 · " + cr + " · " + (S.cur + 1) + "/" + chItems().length;
   } else if (S.view === "quiz"){
     var k = curLevel();
     var lab = "第 " + (k + 1) + " 关 · " + levelName(k);
@@ -1459,13 +2278,27 @@ function updateTop(){
   }
 }
 
+/* 署名徽标只在首页出现；进入闯关 / 直刷 / 成绩页一律收起 */
+function updateBadge(){
+  var b = document.getElementById("authorBadge");
+  if (!b || !b.classList) return;
+  b.classList.toggle("hidden", S.view !== "home");
+}
+
 function render(){
   var app = document.getElementById("app");
   if (!app) return;
   if (S.view === "home") app.innerHTML = renderHome();
   else if (S.view === "quiz") app.innerHTML = renderQuiz();
+  else if (S.view === "drill") app.innerHTML = renderDrill();
+  else if (S.view === "drill-done") app.innerHTML = renderDrillDone();
+  else if (S.view === "chapters") app.innerHTML = renderChapters();
+  else if (S.view === "chapter") app.innerHTML = renderChapter();
+  else if (S.view === "chapter-done") app.innerHTML = renderChapterDone();
   else app.innerHTML = renderDone();
   updateTop();
+  updateBadge();
+  if (S.view !== "home") hideLayoutTipSoft();   // 排版引导只在首页露面
   if (S.view === "done") drawCert();
   if (typeof window.scrollTo === "function"){ try{ window.scrollTo(0, 0); }catch (e) {} }
 }
@@ -1475,6 +2308,15 @@ function handleAct(el){
   var act = el.getAttribute("data-act");
   if (!act) return;
   if (act === "open") openSet(parseInt(el.getAttribute("data-set"), 10));
+  else if (act === "drill") openDrill(parseInt(el.getAttribute("data-set"), 10));
+  else if (act === "drill-next") next();
+  else if (act === "drill-prev") prev();
+  else if (act === "drill-again") openDrill(S.setIdx);
+  else if (act === "chapters") openChapters();
+  else if (act === "chapter") openChapter(parseInt(el.getAttribute("data-ch"), 10));
+  else if (act === "ch-next") chNext();
+  else if (act === "ch-prev") chPrev();
+  else if (act === "ch-again") openChapter(S.chapterIdx);
   else if (act === "start-answer") startAnswer();
   else if (act === "pick") pick(el.getAttribute("data-key"));
   else if (act === "next") next();
@@ -1483,6 +2325,7 @@ function handleAct(el){
   else if (act === "retry-next") retryNext();
   else if (act === "retry-again") retryAgain();
   else if (act === "home") goHome();
+  else if (act === "onboard") showOnboard();
   else if (act === "layout") setLayout(el.getAttribute("data-mode"));
   else if (act === "tip-split"){ setLayout("split"); closeLayoutTip(); }
   else if (act === "tip-close") closeLayoutTip();
@@ -1521,7 +2364,13 @@ function imgBoxOpen(){
 
 function bindEvents(){
   document.addEventListener("click", function(e){
-    var el = e && e.target, found = null;
+    var el = e && e.target, found = null, ob = null, walk = el;
+    // 新手引导用 data-od，和主流程的 data-act 分开，互不干扰
+    while (walk && typeof walk.getAttribute === "function"){
+      if (walk.getAttribute("data-od")){ ob = walk; break; }
+      walk = walk.parentNode;
+    }
+    if (ob){ handleObAct(ob.getAttribute("data-od")); return; }
     while (el && typeof el.getAttribute === "function"){
       if (el.getAttribute("data-act")){ found = el; break; }
       el = el.parentNode;
@@ -1542,12 +2391,27 @@ function bindEvents(){
   });
   document.addEventListener("keydown", function(e){
     if (!e) return;
+    // 新手引导打开时，方向键翻页、Enter 下一步、Esc 跳过，其它按键不再透到答题逻辑
+    if (onboardOn()){
+      if (e.key === "ArrowRight" || e.key === "Enter") onboardNext();
+      else if (e.key === "ArrowLeft") onboardPrev();
+      else if (e.key === "Escape") closeOnboard();
+      return;
+    }
     // 配图放大打开时，Esc 优先关闭它，且不让 ←/→/1-4 继续透到答题逻辑
     if (e.key === "Escape" && imgBoxOpen()){ closeImgBox(); return; }
     if (imgBoxOpen()) return;
     if (e.key === "Escape" && layoutTipOn()){ closeLayoutTip(); return; }
-    if (S.view !== "quiz") return;
-    if (S.stage === "study" && S.mode !== "answer") return;
+    if (S.view === "chapter"){
+      if (e.key === "ArrowLeft") chPrev();
+      else if (e.key === "ArrowRight") chNext();
+      else if (e.key === "1" || e.key === "2" || e.key === "3" || e.key === "4"){
+        pick(["A","B","C","D"][parseInt(e.key, 10) - 1]);
+      }
+      return;
+    }
+    if (S.view !== "quiz" && S.view !== "drill") return;
+    if (S.view === "quiz" && S.stage === "study" && S.mode !== "answer") return;
     if (e.key === "ArrowLeft") prev();
     else if (e.key === "ArrowRight") next();
     else if (e.key === "1" || e.key === "2" || e.key === "3" || e.key === "4"){
@@ -1570,7 +2434,8 @@ function boot(){
   bindEvents();
   applyLayout();     // 恢复上次选的排版（首次进入默认单列）
   render();
-  maybeShowLayoutTip();   // 第一次打开时引导一下排版选择
+  maybeShowOnboard();     // 第一次打开：先放一遍动画引导
+  maybeShowLayoutTip();   // 排版气泡（引导看完会一并收起）
 }
 
 if (typeof document !== "undefined" && document.readyState && document.readyState !== "loading") boot();
@@ -1586,6 +2451,23 @@ window.__quiz = {
   boot: boot,
   handleAct: handleAct,
   openSet: openSet,
+  openDrill: openDrill,
+  renderDrill: renderDrill,
+  renderDrillDone: renderDrillDone,
+  finishDrill: finishDrill,
+  drillRight: drillRight,
+  drillCount: drillCount,
+  updateBadge: updateBadge,
+  showOnboard: showOnboard,
+  closeOnboard: closeOnboard,
+  maybeShowOnboard: maybeShowOnboard,
+  onboardNext: onboardNext,
+  onboardPrev: onboardPrev,
+  onboardOn: onboardOn,
+  onboardStep: onboardStep,
+  onboardTotal: onboardTotal,
+  onboardDone: onboardDone,
+  obArt: obArt,
   startAnswer: startAnswer,
   pick: pick,
   next: next,
@@ -1625,6 +2507,21 @@ window.__quiz = {
   finishLevel: finishLevel,
   downloadPNG: downloadPNG,
   layout: function(){ return S.layout; },
+  /* 知识点章节 */
+  CH: CH,
+  chObj: chObj,
+  chItems: chItems,
+  openChapters: openChapters,
+  openChapter: openChapter,
+  renderChapters: renderChapters,
+  renderChapter: renderChapter,
+  renderChapterDone: renderChapterDone,
+  chNext: chNext,
+  chPrev: chPrev,
+  finishChapter: finishChapter,
+  chapterRight: chapterRight,
+  chapterSecs: chapterSecs,
+  quizItemHtml: quizItemHtml,
   setLayout: setLayout,
   applyLayout: applyLayout,
   loadLayout: loadLayout,
@@ -1634,6 +2531,7 @@ window.__quiz = {
   closeLayoutTip: closeLayoutTip,
   maybeShowLayoutTip: maybeShowLayoutTip,
   inAndroidApp: inAndroidApp,
+  isPhoneWidth: isPhoneWidth,
   progress: function(){ return progress; }
 };
 })();

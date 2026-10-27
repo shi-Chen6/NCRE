@@ -149,6 +149,8 @@ def main():
         ("首次排版引导已内置", bool(r.get("tip"))),
         ("题目配图已内嵌", int(r.get("images") or 0) >= 120),
         ("页面标题正确", bool(r.get("title"))),
+        ("首页有「按知识点刷题」入口", bool(r.get("chapter_entry"))),
+        ("知识点章节数据已内嵌", bool(r.get("chapter_data"))),
     ]
     for name, okv in checks:
         print("  [%s] %s" % ("OK  " if okv else "FAIL", name))

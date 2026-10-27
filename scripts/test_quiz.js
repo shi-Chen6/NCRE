@@ -134,11 +134,58 @@ store['quiz_layout_v1'] = 'split';
 ok(Q.loadLayout() === 'split', '合法值能正常读回');
 delete store['quiz_layout_v1'];
 
-/* ---------------- 首次打开的排版引导 ---------------- */
+/* ---------------- 首次打开：动画分步引导 ---------------- */
+ok(Q.onboardTotal() === 7, '引导共 7 步（实际 ' + Q.onboardTotal() + '）');
+ok(Q.onboardOn() === true, '首次打开自动播放动画引导');
+ok(Q.onboardStep() === 0, '引导从第 1 步开始');
+ok(Q.onboardDone() === false, '只是播放还不算「看过」（未写标记）');
+ok(store['quiz_onboard_v1'] === undefined, '播放过程中不写标记');
+ok(Q.layoutTipOn() === false, '动画引导播放期间不叠排版气泡（避免两层提示）');
+ok(HTML_APP().indexOf('data-act="onboard"') >= 0, '首页常驻「玩法引导」入口，可随时重看');
+ok(html.indexOf('id="onboard"') > 0, '产物含引导层');
+ok(html.indexOf('ob-mask') > 0 && html.indexOf('@keyframes obIn') > 0, '引导层带遮罩与入场动画');
+ok(html.indexOf('@keyframes obPop') > 0 && html.indexOf('@keyframes obGlow') > 0, '引导内有元素弹出与光圈动画');
+ok(html.indexOf('.onboard') > 0 && html.indexOf('ob-hi') > 0, '讲排版那一步会把顶栏抬到遮罩之上');
+
+const obSeen = [];
+for (let i = 0; i < 6; i++) { Q.onboardNext(); obSeen.push(Q.onboardStep()); }
+ok(JSON.stringify(obSeen) === JSON.stringify([1, 2, 3, 4, 5, 6]), '「下一步」逐步推进到第 7 步（实际 ' + obSeen.join(',') + '）');
+ok(Q.onboardOn() === true && Q.onboardStep() === 6, '最后一步仍在引导内');
+ok(Q.obArt('modes').indexOf('闯关模式') >= 0 && Q.obArt('modes').indexOf('直刷模式') >= 0,
+  '第 2 步用两张卡对比两种按套练法');
+ok(Q.obArt('levels').indexOf('ob-lv') >= 0, '第 3 步用关卡轨道演示闯关流程');
+ok(Q.obArt('drill').indexOf('ob-dots20') >= 0, '第 4 步用 20 个点演示直刷进度');
+ok(Q.obArt('chapter').indexOf('ob-ch') >= 0 && Q.obArt('chapter').indexOf('第 12 套 · 第 7 题') >= 0,
+  '第 5 步用章节条 + 来源角标演示知识点刷题');
+ok(Q.obArt('tips').indexOf('单列 / 两栏') >= 0, '第 6 步讲界面操作（排版 / 续做 / 快捷键）');
+
+Q.onboardNext();   // 最后一步 → 开始刷题
+ok(Q.onboardOn() === false, '最后一步点「开始刷题」关闭引导');
+ok(Q.onboardDone() === true && store['quiz_onboard_v1'] === '1', '关闭后写入「已看过」标记');
+ok(Q.layoutTipOn() === false, '引导收尾时把排版气泡一并收掉（避免两层提示）');
+ok(ctx.document.body.classList.contains('ob-hi') === false, '关闭后顶栏高亮已撤销');
+
+Q.maybeShowOnboard();
+ok(Q.onboardOn() === false, '看过之后不再自动播放');
+
+Q.showOnboard();
+ok(Q.onboardOn() === true && Q.onboardStep() === 0, '点「玩法引导」可以重看，从第 1 步起');
+Q.onboardPrev();
+ok(Q.onboardStep() === 0, '第 1 步时「上一步」不越界');
+Q.onboardNext();
+Q.onboardPrev();
+ok(Q.onboardStep() === 0, '「上一步」能退回');
+Q.closeOnboard();
+ok(Q.onboardOn() === false, '「跳过」直接关闭');
+
+/* ---------------- 排版气泡（首次打开让位给动画引导） ---------------- */
 ok(typeof Q.maybeShowLayoutTip === 'function' && typeof Q.closeLayoutTip === 'function',
   '引导相关 API 已暴露');
-ok(Q.layoutTipDone() === false, '全新环境：引导还没看过');
-ok(Q.layoutTipOn() === true, '首次打开（无任何本地记录）自动弹出排版引导');
+ok(Q.layoutTipDone() === true, '动画引导关闭时顺带把排版说明标记为看过');
+delete store['quiz_layout_tip_v1'];
+delete store['quiz_layout_v1'];
+Q.maybeShowLayoutTip();
+ok(Q.layoutTipOn() === true, '没有动画引导挡着时，排版气泡照常弹');
 ok(store['quiz_layout_tip_v1'] === undefined, '仅仅是「显示」还不算看过（未写标记）');
 Q.closeLayoutTip();
 ok(Q.layoutTipOn() === false, '关掉「就用单列」后引导收起');
@@ -610,6 +657,262 @@ Q.closeImgBox();
 ok(Q.imgBoxOpen() === false, 'closeImgBox 能关闭放大层');
 Q.closeImgBox();
 ok(Q.imgBoxOpen() === false, '重复关闭不报错（幂等）');
+
+/* ---------------- 直刷模式（不分组，直接连做 20 题） ---------------- */
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'home' : null) });
+h = HTML_APP();
+ok((h.match(/data-act="drill"/g) || []).length === 24,
+  '首页 24 张套卡各带 1 个直刷入口（实际 ' + (h.match(/data-act="drill"/g) || []).length + '）');
+ok(h.indexOf('直刷 20 题') >= 0, '套卡上有「直刷 20 题」按钮');
+ok(!G('authorBadge').classList.contains('hidden'), '首页显示署名徽标');
+
+Q.openDrill(2);
+ok(Q.state.view === 'drill' && Q.state.stage === 'drill', '进入直刷模式（实际 ' + Q.state.view + '/' + Q.state.stage + '）');
+ok(G('authorBadge').classList.contains('hidden'), '直刷界面隐藏署名徽标');
+ok(Q.state.list.length === 20 && Q.state.cur === 0, '直刷按 1→20 顺序铺满整套（实际 ' + Q.state.list.length + ' 题）');
+h = HTML_APP();
+ok(h.indexOf('直刷模式') >= 0, '直刷页显示模式标签');
+ok(h.indexOf('lvnode') < 0, '直刷页不出现关卡轨道');
+ok(h.indexOf('pvitem') < 0, '直刷页不预先铺解析（无预览环节）');
+ok((h.match(/class="opt"/g) || []).length === 4, '直刷页直接呈现 4 个选项');
+ok(h.indexOf('请选择一个选项') >= 0, '未作答时提示先选答案');
+
+Q.next();
+ok(Q.state.cur === 0, '未作答时「下一题」不推进');
+
+const DITEMS = Q.SETS[2].items;
+Q.pick(DITEMS[0].answer);
+h = HTML_APP();
+ok(Q.state.drillResults[0] === DITEMS[0].answer, '直刷记录作答（第 1 题）');
+ok(h.indexOf('正确答案') >= 0, '答完立刻展开正确答案');
+ok(h.indexOf('零基础详解') >= 0, '答完立刻给出解析内容');
+
+Q.next();
+ok(Q.state.cur === 1, '直刷可以进入下一题');
+Q.prev();
+ok(Q.state.cur === 0, '直刷可以回看上一题');
+Q.pick(DITEMS[0].answer === 'A' ? 'B' : 'A');
+ok(Q.state.drillResults[0] === DITEMS[0].answer, '已答题再点不会改答案');
+
+// 20 题走完：第 2 题故意答错，其余全对
+Q.next();
+let g2 = 0;
+while (Q.state.view === 'drill' && g2++ < 40) {
+  const idx = Q.state.list[Q.state.cur];
+  if (!Q.state.drillResults[idx]) {
+    Q.pick(idx === 1 ? ['A', 'B', 'C', 'D'].find(k => k !== DITEMS[1].answer) : DITEMS[idx].answer);
+  }
+  Q.next();
+}
+ok(g2 < 40, '直刷 20 题可正常收敛（循环 ' + g2 + ' 次）');
+ok(Q.state.view === 'drill-done', '20 题答完自动交卷（实际 ' + Q.state.view + '）');
+ok(Q.drillRight() === 19, '直刷统计答对 19/20（实际 ' + Q.drillRight() + '）');
+h = HTML_APP();
+ok(h.indexOf('直刷完成') >= 0, '直刷成绩页标题正确');
+ok(h.indexOf('19/20') >= 0, '成绩页给出答对数');
+ok(h.indexOf('错题回顾') >= 0, '成绩页含错题回顾');
+ok(h.indexOf('第 2 题') >= 0, '错题回顾定位到具体题号');
+ok(h.indexOf('certCanvas') < 0, '直刷不发证书（证书属于闯关通关）');
+ok(G('authorBadge').classList.contains('hidden'), '直刷成绩页同样不显示署名徽标');
+
+const drec = Q.progress()['3'];
+ok(!!drec && !!drec.drill && drec.drill.right === 19, '直刷成绩已写入 localStorage');
+ok(!!drec.drillBest && drec.drillBest.total === 20, '同时记录直刷最好成绩');
+ok(!drec.levels, '直刷不改动闯关关卡成绩（两套记录互不干扰）');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'home' : null) });
+h = HTML_APP();
+ok(h.indexOf('直刷 19/20') >= 0, '首页套卡回显直刷成绩（实际片段：' + (h.match(/直刷 \d+\/\d+/) || ['无'])[0] + '）');
+ok(!G('authorBadge').classList.contains('hidden'), '回到首页徽标重新出现');
+
+/* ---------------- 知识点章节刷题 ---------------- */
+Q.closeOnboard();
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'home' : null) });
+h = HTML_APP();
+
+ok(Array.isArray(Q.CH) && Q.CH.length === 13, '知识点共 13 章（实际 ' + (Q.CH ? Q.CH.length : '无') + '）');
+ok(Q.CH.every(c => c.total > 0), '每章都有题目，不存在空章');
+ok(Q.CH.every(c => c.objs.length === c.total), '每章挂载题目数与 total 一致');
+ok(Q.CH.reduce((a, c) => a + c.total, 0) === 480, '章节题目合计 480 题（实际 ' + Q.CH.reduce((a, c) => a + c.total, 0) + '）');
+ok(Q.CH.every(c => c.sets >= 1 && c.sets <= 24), '每章覆盖套数落在 1–24 之间');
+ok(Q.CH.every(c => c.objs.every((q, i) => i === 0 ||
+  (q.set * 100 + q.no) > (c.objs[i - 1].set * 100 + c.objs[i - 1].no))),
+  '每章题目按「第几套 → 第几题」升序排列');
+ok(Q.CH.every(c => c.objs.every(q => Q.SETS[q.set - 1].items[q.no - 1] === q)),
+  '章节里引用的是同一道题对象（没有复制、没有串位）');
+ok(Q.CH.every(c => c.objs.every(q => q.set >= 1 && q.set <= 24 && q.no >= 1 && q.no <= 20)),
+  '每题都带着合法的套号与题号');
+
+const chKeys = Q.CH.reduce((a, c) => a.concat(c.objs.map(q => q.set + '-' + q.no)), []);
+ok(chKeys.length === 480, '题目不去重，480 条全在（实际 ' + chKeys.length + '）');
+ok(new Set(chKeys).size === 480, '同一道题在同一章里不会被挂两次');
+const chCover = {};
+chKeys.forEach(k => { const s = k.split('-')[0]; chCover[s] = (chCover[s] || 0) + 1; });
+ok(Object.keys(chCover).length === 24 && Object.keys(chCover).every(s => chCover[s] === 20),
+  '24 套各 20 题全部归入章节（无遗漏）');
+// 跨套重复的题必须保留成两条（不去重）
+const dupStem = {};
+Q.CH.forEach(c => c.objs.forEach(q => {
+  const k = c.id + '||' + q.stem;
+  dupStem[k] = (dupStem[k] || 0) + 1;
+}));
+ok(Object.keys(dupStem).some(k => dupStem[k] > 1), '同一章里同一道题出现在多套时都保留（未去重）');
+
+ok(h.indexOf('data-act="chapters"') >= 0, '首页有「按知识点刷题」入口');
+ok(h.indexOf('按知识点刷题 · 13 章 480 题') >= 0, '首页入口写明章节数与题量');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'chapters' : null) });
+h = HTML_APP();
+ok(Q.state.view === 'chapters', '进入章节列表（实际 ' + Q.state.view + '）');
+ok((h.match(/class="chcard/g) || []).length === 13, '章节列表渲染 13 张章卡');
+ok(h.indexOf('计算机发展与信息表示') >= 0, '章卡显示章名');
+ok(h.indexOf('53 题') >= 0, '章卡显示题量');
+ok(h.indexOf('覆盖 ') >= 0, '章卡显示覆盖套数');
+ok(G('authorBadge').classList.contains('hidden'), '章节列表不显示署名徽标');
+ok(G('topMeta').innerHTML.indexOf('知识点章节') >= 0, '顶栏标注「知识点章节」');
+
+/* 章节刷题不动闯关 / 直刷进度：先取快照 */
+const setSnap = JSON.stringify(Q.progress()['1'] || {});
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'chapter' : (n === 'data-ch' ? '0' : null)) });
+h = HTML_APP();
+ok(Q.state.view === 'chapter' && Q.state.stage === 'chapter', '进入章节刷题');
+ok(Q.state.chapterIdx === 0, '记录当前章下标');
+ok(Q.state.list.length === Q.CH[0].total, '题目列表长度 = 本章题量');
+ok(Object.keys(Q.state.chapterResults).length === 0, '进入时本章作答记录为空');
+ok(h.indexOf('class="qsrc"') >= 0, '题卡左上角有来源角标');
+const c0 = Q.CH[0].objs[0];
+ok(h.indexOf('第 ' + c0.set + ' 套 · 第 ' + c0.no + ' 题') >= 0,
+  '角标写明「第几套第几题」（应为第 ' + c0.set + ' 套 · 第 ' + c0.no + ' 题）');
+ok(h.indexOf(Q.CH[0].name) >= 0, '页面标题是本章章名');
+ok(h.indexOf('本章第 1/' + Q.CH[0].total + ' 题') >= 0, '显示本章进度');
+
+Q.pick(c0.answer);
+h = HTML_APP();
+ok(Q.state.chapterResults[0] === c0.answer, '章节刷题记录作答');
+ok(h.indexOf('正确答案') >= 0, '答完立刻出正确答案');
+ok(h.indexOf('零基础详解') >= 0, '答完立刻给出解析');
+ok(Q.chapterRight() === 1, '本章答对数统计正确');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'ch-next' : null) });
+ok(Q.state.cur === 1, '「下一题」推进到第 2 题');
+Q.chNext();
+ok(Q.state.cur === 1, '第 2 题未作答时「下一题」不推进');
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'ch-prev' : null) });
+ok(Q.state.cur === 0, '「上一题」回到第 1 题');
+ctx.document._h.keydown.forEach(fn => fn({ key: 'ArrowRight' }));
+ok(Q.state.cur === 1, '快捷键 → 进入下一题');
+ctx.document._h.keydown.forEach(fn => fn({ key: '1' }));
+ok(!!Q.state.chapterResults[1], '快捷键 1 在章节里选中 A');
+
+// 本章走完：第 2 题故意答错，其余全对
+let g3 = 0;
+while (Q.state.view === 'chapter' && g3++ < 200) {
+  const idx = Q.state.list[Q.state.cur];
+  if (!Q.state.chapterResults[idx]) {
+    const right = Q.chItems()[idx].answer;
+    Q.pick(idx === 1 ? ['A', 'B', 'C', 'D'].find(k => k !== right) : right);
+  }
+  Q.chNext();
+}
+ok(g3 < 200, '本章可正常走完（循环 ' + g3 + ' 次）');
+ok(Q.state.view === 'chapter-done', '答完自动进入本章成绩页（实际 ' + Q.state.view + '）');
+ok(Q.chapterRight() === Q.CH[0].total - 1, '答对数 = 总题数 - 1（实际 ' + Q.chapterRight() + '）');
+h = HTML_APP();
+ok(h.indexOf('本章刷完') >= 0, '成绩页标题正确');
+ok(h.indexOf('错题回顾') >= 0, '成绩页含错题回顾');
+const wrongIdx0 = Number(Object.keys(Q.state.chapterResults).find(i => Q.state.chapterResults[i] !== Q.chItems()[i].answer));
+ok(wrongIdx0 >= 0, '本章确实记录了错题');
+const wq = Q.chItems()[wrongIdx0];
+ok(h.indexOf('第 ' + wq.set + ' 套 · 第 ' + wq.no + ' 题') >= 0,
+  '错题回顾标出来源（应为第 ' + wq.set + ' 套 · 第 ' + wq.no + ' 题）');
+ok(h.indexOf('certCanvas') < 0, '章节刷题不发证书');
+
+const crec = (Q.progress().chapters || {})[1];
+ok(!!crec && !!crec.last && crec.last.total === Q.CH[0].total, '本章成绩写入 progress.chapters');
+ok(!!crec.best && crec.best.right === Q.CH[0].total - 1, '记录本章最佳成绩');
+ok(JSON.stringify(Q.progress()['1'] || {}) === setSnap, '章节刷题不碰闯关 / 直刷进度');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'ch-again' : null) });
+ok(Q.state.view === 'chapter' && Q.state.cur === 0, '「再刷本章」回到第 1 题');
+ok(Object.keys(Q.state.chapterResults).length === 0, '「再刷本章」清空作答记录');
+
+// 全对一遍：最佳应刷新为满分
+let g4 = 0;
+while (Q.state.view === 'chapter' && g4++ < 200) {
+  const idx = Q.state.list[Q.state.cur];
+  if (!Q.state.chapterResults[idx]) Q.pick(Q.chItems()[idx].answer);
+  Q.chNext();
+}
+ok(Q.state.view === 'chapter-done', '再刷一遍可再次完成');
+ok((Q.progress().chapters || {})[1].best.right === Q.CH[0].total, '全对后最佳成绩刷新为满分');
+
+// 再刷出差成绩：不覆盖最佳
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'ch-again' : null) });
+let g5 = 0;
+while (Q.state.view === 'chapter' && g5++ < 200) {
+  const idx = Q.state.list[Q.state.cur];
+  if (!Q.state.chapterResults[idx]) {
+    const right = Q.chItems()[idx].answer;
+    Q.pick(idx === 3 ? ['A', 'B', 'C', 'D'].find(k => k !== right) : right);
+  }
+  Q.chNext();
+}
+ok(Q.state.view === 'chapter-done', '第三次也能正常交卷');
+ok((Q.progress().chapters || {})[1].best.right === Q.CH[0].total, '刷出差成绩不会覆盖最佳成绩');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'chapters' : null) });
+h = HTML_APP();
+ok(h.indexOf('最佳 ' + Q.CH[0].total + '/' + Q.CH[0].total) >= 0, '章节列表回显最佳成绩');
+ok((h.match(/class="chcard is-done/g) || []).length === 1, '刷满分的章卡标记为已完成');
+
+// 换一章：状态重置、标题跟着换
+const chapBefore = Q.state.chapterIdx;
+Q.openChapter(4);
+h = HTML_APP();
+ok(Q.state.chapterIdx === 4 && chapBefore !== 4, '可以切换到另一章');
+ok(Object.keys(Q.state.chapterResults).length === 0, '换章后清空上一章作答');
+ok(h.indexOf(Q.CH[4].name) >= 0, '换章后标题跟着换');
+ok(h.indexOf('第 ' + Q.CH[4].objs[0].set + ' 套 · 第 ' + Q.CH[4].objs[0].no + ' 题') >= 0,
+  '换章后第 1 题的来源角标同步更新');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'chapters' : null) });
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'chapter' : (n === 'data-ch' ? '999' : null)) });
+ok(Q.state.view === 'chapters', '非法章号被忽略，不会跳进空白页');
+Q.openChapter(-1);
+ok(Q.state.view === 'chapters', '负数章号同样被忽略');
+
+Q.handleAct({ getAttribute: n => (n === 'data-act' ? 'home' : null) });
+h = HTML_APP();
+ok(!G('authorBadge').classList.contains('hidden'), '回到首页署名徽标重新出现');
+ok(h.indexOf('按知识点刷题') >= 0, '首页仍保留章节入口');
+
+/* ---------------- 手机端精简（APK / 窄屏只留做题与解析） ---------------- */
+const wKeep = ctx.innerWidth;
+ctx.innerWidth = 390;
+ok(Q.isPhoneWidth() === true, '窄屏（≤620）识别为手机端');
+ctx.innerWidth = 1200;
+ok(Q.isPhoneWidth() === false, '宽屏不按手机端处理');
+ctx.innerWidth = wKeep;
+
+ok(html.indexOf('.hide-phone{display:none') > 0, '产物含「手机上隐藏」样式类');
+ok(html.indexOf('.home-hero{display:none') > 0, '手机上收起首页标题块（顶栏已有名字，不重复）');
+ok(HTML_APP().indexOf('home-hero') > 0, '首页 hero 带手机端标记');
+ok(HTML_APP().indexOf('class="chip hide-phone"') > 0, '首页次要统计（总题量/每组）在手机上收起');
+ok(HTML_APP().indexOf('chipbtn hide-phone') > 0, '玩法引导入口在手机上收起');
+ok(HTML_APP().indexOf('class="setcard') > 0, '套卡本身照常显示（入口不受影响）');
+ok(html.indexOf('.setcard .score,.setcard .drillscore{display:none') > 0, '套卡上的星级/直刷成绩在手机上收起');
+
+// 手机上不弹 7 步引导，宽屏照旧
+delete store['quiz_onboard_v1'];
+ctx.innerWidth = 390;
+Q.maybeShowOnboard();
+ok(Q.onboardOn() === false, '手机上打开不弹分步引导');
+ctx.innerWidth = 1200;
+Q.maybeShowOnboard();
+ok(Q.onboardOn() === true, '宽屏仍会弹分步引导');
+Q.closeOnboard();
+ctx.innerWidth = wKeep;
 
 /* ---------------- 结果 ---------------- */
 console.log('\n通过 ' + pass + ' 项，失败 ' + failures.length + ' 项');
