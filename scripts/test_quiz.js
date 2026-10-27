@@ -593,24 +593,35 @@ Q.openSet(0);
 Q.beginLevel();   // 恢复：第 1 套第 1 关预览，供后面的配图断言使用
 
 /* ---------------- 解析配图 ---------------- */
-// 以 output/images/set_XX/ 里实际有没有图为准，别把「第几套有图」写死 ——
+// 以 images/set_XX/ 里实际有没有图为准，别把「第几套有图」写死 ——
 // 每补一套图都要改测试的话，测试会因为数据变了而假失败。
+// 分三类：整套齐全 / 只配了一部分（缺某几题）/ 完全没配。
 const IMG_ROOT = path.join(__dirname, '..', 'images');
 const pad2 = n => (n < 10 ? '0' + n : '' + n);
-const setsWithImg = [], setsNoImg = [];
+const hasImg = (set, no) => fs.existsSync(path.join(IMG_ROOT, 'set_' + pad2(set), no + '.png'));
+const setsWithImg = [], setsPartial = [], setsNoImg = [];
 Q.SETS.forEach(s => {
-  const has = [1, 2, 20].every(n => fs.existsSync(path.join(IMG_ROOT, 'set_' + pad2(s.set), n + '.png')));
-  (has ? setsWithImg : setsNoImg).push(s);
+  const n = s.items.filter(q => hasImg(s.set, q.no)).length;
+  if (n === 0) setsNoImg.push(s);
+  else if (n === s.items.length) setsWithImg.push(s);
+  else setsPartial.push(s);
 });
-ok(setsWithImg.length >= 1, '至少有一套已配图（实际 ' + setsWithImg.length + ' 套）');
-ok(setsWithImg.every(s => s.items.length === 20), '已配图的套均为 20 题');
+ok(setsWithImg.length >= 1, '至少有一套配图齐全（实际 ' + setsWithImg.length + ' 套）');
+ok(setsWithImg.every(s => s.items.length === 20), '配图齐全的套均为 20 题');
 ok(setsWithImg.every(s => s.items.every(q => (q.image || '').indexOf('data:image/png;base64,') === 0)),
-  '已配图的套：每题都内嵌了图片');
+  '配图齐全的套：每题都内嵌了图片');
 ok(setsWithImg.every(s => s.items.every(q => q.image.indexOf('iVBORw0KGgo') > 0)),
   '内嵌数据是合法 PNG（文件头校验通过）');
 const imgLens = setsWithImg.reduce((a, s) => a.concat(s.items.map(q => q.image.length)), []);
 ok(Math.min.apply(null, imgLens) > 30000,
   '每张配图体积正常（最小 ' + Math.round(Math.min.apply(null, imgLens) * 3 / 4 / 1024) + ' KB）');
+
+// 部分配图：有图的题嵌图、缺图的题 image 为空 —— 关键是「不能串位」
+ok(setsPartial.every(s => s.items.every(q =>
+  hasImg(s.set, q.no) === ((q.image || '').indexOf('data:image/png;base64,') === 0))),
+  '部分配图的套：有图文件才有 image，缺图的那题留空（不串位）：'
+  + setsPartial.map(s => '第' + s.set + '套缺'
+      + s.items.filter(q => !hasImg(s.set, q.no)).map(q => '第' + q.no + '题').join('、')).join('；'));
 ok(setsNoImg.every(s => s.items.every(q => !q.image)), '未配图的套：没有被误插空图片');
 
 ok(Q.imgHtml(Q.SETS[0].items[0]).indexOf('expimg') >= 0, 'imgHtml 渲染出配图块');
@@ -624,6 +635,20 @@ if (setsNoImg.length) {
   Q.openSet(Q.SETS.indexOf(setsNoImg[0]));
   Q.beginLevel();
   ok(HTML_APP().indexOf('expimg') < 0, '未配图的套：解析区不出现配图块（不留空位）');
+  Q.openSet(0);
+}
+if (setsPartial.length) {
+  // 第 1 关（前 5 题）里恰好有图的题才渲染配图，缺图那题退化成单列
+  const ps = setsPartial[0];
+  const expect = [0, 1, 2, 3, 4].filter(i => hasImg(ps.set, ps.items[i].no)).length;
+  Q.openSet(Q.SETS.indexOf(ps));
+  Q.beginLevel();
+  const html = HTML_APP();
+  ok((html.match(/expimg/g) || []).length === expect,
+    '部分配图的套：第 1 关 5 题里只渲染 ' + expect + ' 张配图（实际 '
+    + (html.match(/expimg/g) || []).length + '）');
+  ok((html.match(/class="split one"/g) || []).length === 5 - expect,
+    '缺图的那 ' + (5 - expect) + ' 题退化成单列（不留空栏）');
   Q.openSet(0);
 }
 

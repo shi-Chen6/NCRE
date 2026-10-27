@@ -103,7 +103,6 @@ button.sm{padding:6px 12px;font-size:13px;}
 }
 .chbanner .cbt{flex:1;min-width:0;display:block;}
 .chbanner .cbt b{display:block;font-size:15.5px;color:var(--brand);letter-spacing:.3px;}
-.chbanner .cbt span{display:block;font-size:12.5px;color:var(--sub);margin-top:1px;}
 .chbanner .cbgo{flex:0 0 auto;font-size:13px;font-weight:700;color:var(--brand);white-space:nowrap;}
 
 /* ---------- 知识点章节：章节列表 ---------- */
@@ -370,7 +369,6 @@ body.lay-single .topbar .inner{max-width:1000px;}
   .chbanner{padding:11px 13px;gap:10px;margin-bottom:14px;}
   .chbanner .cbi{width:34px;height:34px;border-radius:10px;font-size:16px;}
   .chbanner .cbt b{font-size:14px;}
-  .chbanner .cbt span{display:none;}
 
   /* 套卡：只留套号、状态与两个入口，星级/成绩这类统计不上手机 */
   .setgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
@@ -1266,8 +1264,7 @@ function renderHome(){
     CH.forEach(function(c){ chTotal += c.total; });
     h += '<button class="chbanner" data-act="chapters">'
       + '<span class="cbi">章</span>'
-      + '<span class="cbt"><b>按知识点刷题 · ' + CH.length + ' 章 ' + chTotal + ' 题</b>'
-      + '<span>同一知识点的题归到同一章，题目不去重；左上角标着它来自第几套第几题</span></span>'
+      + '<span class="cbt"><b>按知识点刷题 · ' + CH.length + ' 章 ' + chTotal + ' 题</b></span>'
       + '<span class="cbgo">进入 ›</span></button>';
   }
 
